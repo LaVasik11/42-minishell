@@ -5,8 +5,18 @@ CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/
 LIBS = -lreadline
 RM = rm -rf
 
-SRCDIR = src
-SRCS = $(SRCDIR)/minishell.c $(SRCDIR)/signal.c $(SRCDIR)/init.c $(SRCDIR)/free_minishell.c $(SRCDIR)/parse_input.c $(SRCDIR)/execute_command.c $(SRCDIR)/utils/utils.c $(SRCDIR)/utils/path_utils.c
+SRCS = src/minishell.c \
+       src/signal.c \
+       src/init.c \
+       src/free_minishell.c \
+       src/utils/path_utils.c \
+       src/parse/parse_input.c \
+       src/execute_command.c \
+       src/utils/utils.c \
+	   src/parse/parse_utils1.c \
+	   src/parse/parse_utils2.c \
+	   src/parse/copy_quoted.c \
+	   src/parse/copy_unquoted.c
 OBJS = ${SRCS:.c=.o}
 
 LIBFT_DIR = ./libft

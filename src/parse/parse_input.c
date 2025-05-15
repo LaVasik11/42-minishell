@@ -1,0 +1,42 @@
+#include "minishell.h"
+
+int	append_arg(char **args, int *k, char *line, int *i)
+{
+	char	*arg;
+
+	if (is_quote(line[*i]))
+		arg = copy_quoted_arg(line, i);
+	else
+		arg = copy_unquoted_arg(line, i);
+	if (!arg)
+		return (0);
+	args[*k] = arg;
+	(*k)++;
+	return (1);
+}
+
+char	**parse_input(char *line)
+{
+	char	**args;
+	int		i;
+	int		k;
+
+	args = malloc(sizeof(char *) * 1024);
+	if (!args)
+		return (NULL);
+	i = 0;
+	k = 0;
+	while (line[i])
+	{
+		i = skip_spaces(line, i);
+		if (!line[i])
+			break ;
+		if (!append_arg(args, &k, line, &i))
+		{
+			free_all(args, k);
+			return (NULL);
+		}
+	}
+	args[k] = NULL;
+	return (args);
+}

@@ -1,0 +1,64 @@
+#include "minishell.h"
+
+char	*copy_single_quoted(char *line, int *i, int end)
+{
+	char	*segment;
+
+	segment = copy_segment(line, *i, end);
+	*i = end + 1;
+	return (segment);
+}
+
+char	*copy_double_quoted_part(char *line, int *i, int end, char *result)
+{
+	char	*segment;
+	char	*var;
+	int		start;
+
+	while (*i < end)
+	{
+		if (line[*i] == '$')
+		{
+			var = parse_dollar(line, i);
+			if (!var)
+				return (free(result), NULL);
+			result = str_join_free(result, var);
+		}
+		else
+		{
+			start = *i;
+			while (*i < end && line[*i] != '$')
+				(*i)++;
+			segment = copy_segment(line, start, *i);
+			if (!segment)
+				return (free(result), NULL);
+			result = str_join_free(result, segment);
+		}
+	}
+	return (result);
+}
+
+char	*copy_double_quoted(char *line, int *i, int end)
+{
+	char	*result;
+
+	result = NULL;
+	result = copy_double_quoted_part(line, i, end, result);
+	*i = end + 1;
+	return (result);
+}
+
+char	*copy_quoted_arg(char *line, int *i)
+{
+	char	quote;
+	int		end;
+
+	quote = line[*i];
+	end = find_closing_quote(line, *i, quote);
+	if (end == -1)
+		return (NULL);
+	*i = *i + 1;
+	if (quote == '\'')
+		return (copy_single_quoted(line, i, end));
+	return (copy_double_quoted(line, i, end));
+}
