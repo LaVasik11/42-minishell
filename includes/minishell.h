@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
+/*   Updated: 2025/05/16 18:40:15 by gkankia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -31,14 +43,13 @@ typedef struct s_minishell
 	int		is_running;
 }	t_minishell;
 
-/* main workflow */
+
 void	init_shell(t_minishell *sh);
 void	setup_signals(void);
 char	**parse_input(char *line);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
 
-/* парсинг */
 int		skip_spaces(char *line, int i);
 int		is_quote(char c);
 int		is_special(char c);
@@ -47,13 +58,10 @@ char	*copy_segment(char *line, int start, int end);
 int		append_arg(char **args, int *k, char *line, int *i);
 char	*copy_quoted_arg(char *line, int *i);
 char	*copy_unquoted_arg(char *line, int *i);
-
-/* переменные окружения */
 char	*parse_dollar(char *line, int *i);
 char	*get_env_value(char *name);
 char	*str_join_free(char *s1, char *s2);
 
-/* утилиты */
 void	free_all(char **args, int count);
 void	free_args(char **args);
 char	*get_prompt(void);

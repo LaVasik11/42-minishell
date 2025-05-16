@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
+/*   Updated: 2025/05/16 18:43:14 by gkankia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	execute_command(t_minishell *sh)
@@ -17,10 +29,8 @@ void	execute_command(t_minishell *sh)
 		if (!path)
 			exit_with_error(sh, "minishell");
 		execve(path, sh->args, sh->envp);
-		perror("minishell");
 		free(path);
-		free_minishell(sh);
-		exit(1);
+		exit_with_error(sh, "minishell");
 	}
 	else
 		waitpid(pid, &status, 0);
