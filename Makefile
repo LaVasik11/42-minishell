@@ -10,9 +10,9 @@ SRCS = src/minishell.c \
        src/init.c \
        src/free_minishell.c \
        src/utils/path_utils.c \
-       src/parse/parse_input.c \
        src/execute_command.c \
        src/utils/utils.c \
+	   src/parse/parse_input.c \
 	   src/parse/parse_utils1.c \
 	   src/parse/parse_utils2.c \
 	   src/parse/copy_quoted.c \
