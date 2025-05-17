@@ -6,6 +6,7 @@ LIBS = -lreadline
 RM = rm -rf
 
 SRCS = src/minishell.c \
+	   src/get_prompt.c \
        src/signal.c \
        src/init.c \
        src/free_minishell.c \

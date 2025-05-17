@@ -12,32 +12,6 @@
 
 #include "minishell.h"
 
-char	*get_prompt(void)
-{
-	char	cwd[PATH_MAX];
-	char	*user;
-	char	*tmp;
-	char	*prompt;
-
-	user = getenv("USER");
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return (ft_strdup("minishell> "));
-	if (!user)
-		user = "user";
-	tmp = ft_strjoin(user, ":");
-	if (!tmp)
-		return (ft_strdup("minishell> "));
-	prompt = ft_strjoin(tmp, cwd);
-	free(tmp);
-	if (!prompt)
-		return (ft_strdup("minishell> "));
-	tmp = ft_strjoin(prompt, "$ ");
-	free(prompt);
-	if (!tmp)
-		return (ft_strdup("minishell> "));
-	return (tmp);
-}
-
 void	process_command(t_minishell *ms)
 {
 	ms->prompt = get_prompt();
