@@ -25,4 +25,5 @@ void	init_shell(t_minishell *sh)
 	sh->out_fd = 1;
 	sh->last_exit_code = 0;
 	sh->is_running = 1;
+	sh->exit_code = 0;
 }

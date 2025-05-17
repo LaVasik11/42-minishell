@@ -46,4 +46,5 @@ void	free_minishell(t_minishell *shell)
 	shell->in_fd = 0;
 	shell->out_fd = 1;
 	shell->pipe_count = 0;
+	shell->exit_code = 0;
 }

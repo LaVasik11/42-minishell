@@ -41,7 +41,7 @@ char	*get_env_value(char *name)
 	return (ft_strdup(value));
 }
 
-char	*parse_dollar(char *line, int *i)
+char	*parse_dollar(t_minishell *ms, int *i)
 {
 	int		start;
 	int		len;
@@ -49,8 +49,13 @@ char	*parse_dollar(char *line, int *i)
 	char	*value;
 
 	(*i)++;
+	if (ms->line[*i] == '?')
+	{
+		(*i)++;
+		return (ft_itoa(ms->exit_code));
+	}
 	start = *i;
-	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
+	while (ms->line[*i] && (ft_isalnum(ms->line[*i]) || ms->line[*i] == '_'))
 		(*i)++;
 	len = *i - start;
 	if (len == 0)
@@ -58,7 +63,7 @@ char	*parse_dollar(char *line, int *i)
 	name = malloc(len + 1);
 	if (!name)
 		return (NULL);
-	ft_strlcpy(name, &line[start], len + 1);
+	ft_strlcpy(name, &ms->line[start], len + 1);
 	value = get_env_value(name);
 	free(name);
 	return (value);

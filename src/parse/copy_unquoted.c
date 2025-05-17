@@ -25,25 +25,25 @@ char	*copy_unquoted_segment(char *line, int *i)
 	return (segment);
 }
 
-char	*copy_unquoted_arg(char *line, int *i)
+char	*copy_unquoted_arg(t_minishell *ms, int *i)
 {
 	char	*result;
 	char	*segment;
 	char	*var;
 
 	result = NULL;
-	while (line[*i] && !is_special(line[*i]) && !is_quote(line[*i]))
+	while (ms->line[*i] && !is_special(ms->line[*i]) && !is_quote(ms->line[*i]))
 	{
-		if (line[*i] == '$')
+		if (ms->line[*i] == '$')
 		{
-			var = parse_dollar(line, i);
+			var = parse_dollar(ms, i);
 			if (!var)
 				return (free(result), NULL);
 			result = str_join_free(result, var);
 		}
 		else
 		{
-			segment = copy_unquoted_segment(line, i);
+			segment = copy_unquoted_segment(ms->line, i);
 			if (!segment)
 				return (free(result), NULL);
 			result = str_join_free(result, segment);

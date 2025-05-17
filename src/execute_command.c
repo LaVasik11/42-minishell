@@ -12,11 +12,22 @@
 
 #include "minishell.h"
 
+static void	child_process_logic(t_minishell *sh)
+{
+	char	*path;
+
+	path = find_in_path(sh->args[0]);
+	if (!path)
+		exit_with_error(sh, "minishell");
+	execve(path, sh->args, sh->envp);
+	free(path);
+	exit_with_error(sh, "minishell");
+}
+
 void	execute_command(t_minishell *sh)
 {
 	pid_t	pid;
 	int		status;
-	char	*path;
 
 	if (!sh->args || !sh->args[0])
 		return ;
@@ -24,14 +35,10 @@ void	execute_command(t_minishell *sh)
 	if (pid == -1)
 		exit_with_error(sh, "fork");
 	else if (pid == 0)
-	{
-		path = find_in_path(sh->args[0]);
-		if (!path)
-			exit_with_error(sh, "minishell");
-		execve(path, sh->args, sh->envp);
-		free(path);
-		exit_with_error(sh, "minishell");
-	}
+		child_process_logic(sh);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		sh->exit_code = WEXITSTATUS(status);
 	else
-		waitpid(pid, &status, 0);
+		sh->exit_code = 1;
 }

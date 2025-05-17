@@ -51,7 +51,7 @@ void	process_command(t_minishell *sh)
 		return ;
 	}
 	add_history(sh->line);
-	sh->args = parse_input(sh->line);
+	sh->args = parse_input(sh);
 	if (sh->args && sh->args[0] != NULL)
 		execute_command(sh);
 	free_args(sh->args);

@@ -41,26 +41,32 @@ typedef struct s_minishell
 	int		in_fd;
 	int		out_fd;
 	int		is_running;
+	int		exit_code;
 }	t_minishell;
 
 
 void	init_shell(t_minishell *sh);
 void	setup_signals(void);
-char	**parse_input(char *line);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
 
+char	**parse_input(t_minishell *ms);
+int		append_arg(char **args, int *k, t_minishell *ms, int *i);
+char	*copy_quoted_arg(t_minishell *ms, int *i);
+char	*copy_unquoted_arg(t_minishell *ms, int *i);
+char	*copy_double_quoted(t_minishell *ms, int *i, int end);
+char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result);
+char	*parse_dollar(t_minishell *ms, int *i);
+char	*copy_single_quoted(char *line, int *i, int end);
+char	*copy_segment(char *line, int start, int end);
+char	*copy_unquoted_segment(char *line, int *i);
 int		skip_spaces(char *line, int i);
+int		find_closing_quote(char *line, int i, char quote);
 int		is_quote(char c);
 int		is_special(char c);
-int		find_closing_quote(char *line, int i, char quote);
-char	*copy_segment(char *line, int start, int end);
-int		append_arg(char **args, int *k, char *line, int *i);
-char	*copy_quoted_arg(char *line, int *i);
-char	*copy_unquoted_arg(char *line, int *i);
-char	*parse_dollar(char *line, int *i);
-char	*get_env_value(char *name);
+void	free_all(char **args, int count);
 char	*str_join_free(char *s1, char *s2);
+char	*get_env_value(char *name);
 
 void	free_all(char **args, int count);
 void	free_args(char **args);

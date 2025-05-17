@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	append_arg(char **args, int *k, char *line, int *i)
+int	append_arg(char **args, int *k, t_minishell *ms, int *i)
 {
 	char	*arg;
 
-	if (is_quote(line[*i]))
-		arg = copy_quoted_arg(line, i);
+	if (is_quote(ms->line[*i]))
+		arg = copy_quoted_arg(ms, i);
 	else
-		arg = copy_unquoted_arg(line, i);
+		arg = copy_unquoted_arg(ms, i);
 	if (!arg)
 		return (0);
 	args[*k] = arg;
@@ -27,7 +27,7 @@ int	append_arg(char **args, int *k, char *line, int *i)
 	return (1);
 }
 
-char	**parse_input(char *line)
+char	**parse_input(t_minishell *ms)
 {
 	char	**args;
 	int		i;
@@ -38,12 +38,12 @@ char	**parse_input(char *line)
 		return (NULL);
 	i = 0;
 	k = 0;
-	while (line[i])
+	while (ms->line[i])
 	{
-		i = skip_spaces(line, i);
-		if (!line[i])
+		i = skip_spaces(ms->line, i);
+		if (!ms->line[i])
 			break ;
-		if (!append_arg(args, &k, line, &i))
+		if (!append_arg(args, &k, ms, &i))
 		{
 			free_all(args, k);
 			return (NULL);
