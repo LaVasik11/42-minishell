@@ -44,7 +44,6 @@ typedef struct s_minishell
 	int		exit_code;
 }	t_minishell;
 
-
 void	init_shell(t_minishell *sh);
 void	setup_signals(void);
 void	execute_command(t_minishell *sh);
@@ -55,7 +54,7 @@ int		append_arg(char **args, int *k, t_minishell *ms, int *i);
 char	*copy_quoted_arg(t_minishell *ms, int *i);
 char	*copy_unquoted_arg(t_minishell *ms, int *i);
 char	*copy_double_quoted(t_minishell *ms, int *i, int end);
-char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result);
+char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *res);
 char	*parse_dollar(t_minishell *ms, int *i);
 char	*copy_single_quoted(char *line, int *i, int end);
 char	*copy_segment(char *line, int start, int end);

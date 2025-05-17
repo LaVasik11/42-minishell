@@ -38,36 +38,36 @@ char	*get_prompt(void)
 	return (tmp);
 }
 
-void	process_command(t_minishell *sh)
+void	process_command(t_minishell *ms)
 {
-	sh->prompt = get_prompt();
-	sh->line = readline(sh->prompt);
-	free(sh->prompt);
-	sh->prompt = NULL;
-	if (sh->line == NULL)
+	ms->prompt = get_prompt();
+	ms->line = readline(ms->prompt);
+	free(ms->prompt);
+	ms->prompt = NULL;
+	if (ms->line == NULL)
 	{
 		printf("\nexit\n");
-		sh->is_running = 0;
+		ms->is_running = 0;
 		return ;
 	}
-	add_history(sh->line);
-	sh->args = parse_input(sh);
-	if (sh->args && sh->args[0] != NULL)
-		execute_command(sh);
-	free_args(sh->args);
-	sh->args = NULL;
-	free(sh->line);
-	sh->line = NULL;
+	add_history(ms->line);
+	ms->args = parse_input(ms);
+	if (ms->args && ms->args[0] != NULL)
+		execute_command(ms);
+	free_args(ms->args);
+	ms->args = NULL;
+	free(ms->line);
+	ms->line = NULL;
 }
 
 int	main(void)
 {
-	t_minishell	sh;
+	t_minishell	ms;
 
-	init_shell(&sh);
+	init_shell(&ms);
 	setup_signals();
-	while (sh.is_running)
-		process_command(&sh);
-	free_minishell(&sh);
+	while (ms.is_running)
+		process_command(&ms);
+	free_minishell(&ms);
 	return (0);
 }
