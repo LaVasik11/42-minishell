@@ -17,7 +17,8 @@ SRCS = src/minishell.c \
 	   src/parse/parse_utils1.c \
 	   src/parse/parse_utils2.c \
 	   src/parse/copy_quoted.c \
-	   src/parse/copy_unquoted.c
+	   src/parse/copy_unquoted.c \
+	   src/builtins/cd.c
 OBJS = ${SRCS:.c=.o}
 
 LIBFT_DIR = ./libft
