@@ -45,6 +45,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	init_shell(t_minishell *sh);
+int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
@@ -74,6 +75,10 @@ char	*find_in_path(char *cmd);
 char	*join_path(char *dir, char *cmd);
 void	exit_with_error(t_minishell *sh, const char *msg);
 
-int	change_directory(t_minishell *sh);
+int		change_directory(t_minishell *sh);
+int		builtin_exit(t_minishell *sh);
+int		builtin_env(t_minishell *sh);
+int		builtin_export(t_minishell *sh);
+int		builtin_unset(t_minishell *sh);
 
 #endif

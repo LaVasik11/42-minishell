@@ -34,11 +34,18 @@ void	process_command(t_minishell *ms)
 	ms->line = NULL;
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	ms;
 
+	(void)argc;
+	(void)argv;
 	init_shell(&ms);
+	if (!init_env(&ms, envp))
+	{
+		perror("init_env");
+		return (1);
+	}
 	setup_signals();
 	while (ms.is_running)
 		process_command(&ms);

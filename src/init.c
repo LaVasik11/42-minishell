@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+int	init_env(t_minishell *sh, char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	sh->envp = malloc(sizeof(char *) * (i + 1));
+	if (!sh->envp)
+		return (0);
+	i = 0;
+	while (envp[i])
+	{
+		sh->envp[i] = ft_strdup(envp[i]);
+		if (!sh->envp[i])
+		{
+			while (--i >= 0)
+				free(sh->envp[i]);
+			free(sh->envp);
+			return (0);
+		}
+		i++;
+	}
+	sh->envp[i] = NULL;
+	return (1);
+}
+
 void	init_shell(t_minishell *sh)
 {
 	sh->line = NULL;

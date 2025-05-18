@@ -18,8 +18,14 @@ int	execute_builtin(t_minishell *ms)
 		return (0);
 	if (ft_strcmp(ms->args[0], "cd") == 0)
 		return (change_directory(ms));
-	// else if (ft_strcmp(ms->args[0], "exit") == 0)
-	// 	return (builtin_exit(ms));
+	else if (ft_strcmp(ms->args[0], "exit") == 0)
+		return (builtin_exit(ms));
+	else if (ft_strcmp(ms->args[0], "env") == 0)
+		return (builtin_env(ms));
+	else if (ft_strcmp(ms->args[0], "export") == 0)
+		return (builtin_export(ms));
+	else if (ft_strcmp(ms->args[0], "unset") == 0)
+		return (builtin_unset(ms));
 	return (0);
 }
 
