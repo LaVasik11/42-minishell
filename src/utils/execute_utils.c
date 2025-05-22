@@ -50,3 +50,37 @@ int	execute_builtin(t_minishell *ms)
 		return (builtin_unset(ms));
 	return (0);
 }
+
+void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe)
+{
+	if (ms->in_fd != STDIN_FILENO)
+	{
+		dup2(ms->in_fd, STDIN_FILENO);
+		close(ms->in_fd);
+	}
+	if (ms->out_fd != STDOUT_FILENO)
+	{
+		dup2(ms->out_fd, STDOUT_FILENO);
+		close(ms->out_fd);
+	}
+	if (has_pipe)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+	}
+}
+
+void	handle_parent_fds(t_minishell *ms, int pipe_fd[2], \
+	int has_pipe, int *prev_fd)
+{
+	if (ms->in_fd != STDIN_FILENO)
+		close(ms->in_fd);
+	if (ms->out_fd != STDOUT_FILENO)
+		close(ms->out_fd);
+	if (has_pipe)
+	{
+		close(pipe_fd[1]);
+		*prev_fd = pipe_fd[0];
+	}
+}

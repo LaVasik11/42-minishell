@@ -53,6 +53,9 @@ void	free_minishell(t_minishell *sh);
 int		here_doc(const char *delimiter);
 int		has_pipe(char **args);
 int		execute_builtin(t_minishell *ms);
+void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe);
+void	handle_parent_fds(t_minishell *ms, int pipe_fd[2], \
+	int has_pipe, int *prev_fd);
 
 char	**parse_input(t_minishell *ms);
 int		append_arg(char **args, int *k, t_minishell *ms, int *i);

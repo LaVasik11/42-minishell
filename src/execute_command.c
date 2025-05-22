@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	**build_argv(char **args, int start, int end)
+char	**build_argv(char **args, int start, int end)
 {
 	char	**argv;
 	int		i;
@@ -37,7 +37,7 @@ static char	**build_argv(char **args, int start, int end)
 	return (argv);
 }
 
-static void	handle_redirections(t_minishell *ms, int start, int end)
+void	handle_redirections(t_minishell *ms, int start, int end)
 {
 	int	i;
 
@@ -64,56 +64,33 @@ O_CREAT | O_APPEND | O_WRONLY, 0644);
 	}
 }
 
-static void start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
+void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 {
-    pid_t   pid;
-    int     pipe_fd[2];
-    char    **cmd;
-    char    *path;
-    int     has_pipe;
+	pid_t	pid;
+	int		pipe_fd[2];
+	int		has_pipe;
+	char	**cmd;
+	char	*path;
 
-    cmd = build_argv(ms->args, start, end);
-    has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
-    if (has_pipe && pipe(pipe_fd) == -1)
-        exit_with_error(ms, "pipe");
-    pid = fork();
-    if (pid == 0)
-    {
-        if (ms->in_fd != STDIN_FILENO)
-        {
-            dup2(ms->in_fd, STDIN_FILENO);
-            close(ms->in_fd);
-        }
-        if (ms->out_fd != STDOUT_FILENO)
-        {
-            dup2(ms->out_fd, STDOUT_FILENO);
-            close(ms->out_fd);
-        }
-        if (has_pipe)
-        {
-            close(pipe_fd[0]);
-            dup2(pipe_fd[1], STDOUT_FILENO);
-            close(pipe_fd[1]);
-        }
-        path = find_in_path(cmd[0]);
-        if (!path)
-            exit_with_error(ms, "minishell: command not found");
-        execve(path, cmd, ms->envp);
-        free(path);
-        exit_with_error(ms, "execve");
-    }
-    if (ms->in_fd != STDIN_FILENO)
-        close(ms->in_fd);
-    if (ms->out_fd != STDOUT_FILENO)
-        close(ms->out_fd);
-    if (has_pipe)
-    {
-        close(pipe_fd[1]);
-        *prev_fd = pipe_fd[0];
-    }
+	cmd = build_argv(ms->args, start, end);
+	has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
+	if (has_pipe && pipe(pipe_fd) == -1)
+		exit_with_error(ms, "pipe");
+	pid = fork();
+	if (pid == 0)
+	{
+		handle_child_fds(ms, pipe_fd, has_pipe);
+		path = find_in_path(cmd[0]);
+		if (!path)
+			exit_with_error(ms, "minishell: command not found");
+		execve(path, cmd, ms->envp);
+		free(path);
+		exit_with_error(ms, "execve");
+	}
+	handle_parent_fds(ms, pipe_fd, has_pipe, prev_fd);
 }
 
-static void	exec_subcmd(t_minishell *ms, int start, int end,
+void	exec_subcmd(t_minishell *ms, int start, int end,
 		int *prev_fd)
 {
 	int	pipe_fd[2];
