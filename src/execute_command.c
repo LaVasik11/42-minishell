@@ -12,52 +12,151 @@
 
 #include "minishell.h"
 
-int	execute_builtin(t_minishell *ms)
+static char	**build_argv(char **args, int start, int end)
 {
-	if (!ms->args || !ms->args[0])
-		return (0);
-	if (ft_strcmp(ms->args[0], "cd") == 0)
-		return (change_directory(ms));
-	else if (ft_strcmp(ms->args[0], "exit") == 0)
-		return (builtin_exit(ms));
-	else if (ft_strcmp(ms->args[0], "env") == 0)
-		return (builtin_env(ms));
-	else if (ft_strcmp(ms->args[0], "export") == 0)
-		return (builtin_export(ms));
-	else if (ft_strcmp(ms->args[0], "unset") == 0)
-		return (builtin_unset(ms));
-	return (0);
+	char	**argv;
+	int		i;
+	int		j;
+
+	argv = malloc(sizeof(char *) * (end - start + 1));
+	if (!argv)
+		return (NULL);
+	i = start;
+	j = 0;
+	while (i < end)
+	{
+		if (ft_strcmp(args[i], "<") == 0
+			|| ft_strcmp(args[i], ">") == 0
+			|| ft_strcmp(args[i], ">>") == 0
+			|| ft_strcmp(args[i], "<<") == 0)
+			i += 2;
+		else
+			argv[j++] = ft_strdup(args[i++]);
+	}
+	argv[j] = NULL;
+	return (argv);
 }
 
-static void	child_process_logic(t_minishell *ms)
+static void	handle_redirections(t_minishell *ms, int start, int end)
 {
-	char	*path;
+	int	i;
 
-	path = find_in_path(ms->args[0]);
-	if (!path)
-		exit_with_error(ms, "minishell");
-	execve(path, ms->args, ms->envp);
-	free(path);
-	exit_with_error(ms, "minishell");
+	i = start;
+	while (i < end)
+	{
+		if (ft_strcmp(ms->args[i], "<") == 0 && i + 1 < end)
+			ms->in_fd = open(ms->args[i + 1], O_RDONLY);
+		else if (ft_strcmp(ms->args[i], ">") == 0 && i + 1 < end)
+			ms->out_fd = open(ms->args[i + 1], \
+O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		else if (ft_strcmp(ms->args[i], ">>") == 0 && i + 1 < end)
+			ms->out_fd = open(ms->args[i + 1], \
+O_CREAT | O_APPEND | O_WRONLY, 0644);
+		else if (ft_strcmp(ms->args[i], "<<") == 0 && i + 1 < end)
+			ms->in_fd = here_doc(ms->args[i + 1]);
+		if (ft_strcmp(ms->args[i], "<") == 0
+			|| ft_strcmp(ms->args[i], ">") == 0
+			|| ft_strcmp(ms->args[i], ">>") == 0
+			|| ft_strcmp(ms->args[i], "<<") == 0)
+			i += 2;
+		else
+			i++;
+	}
+}
+
+static void start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
+{
+    pid_t   pid;
+    int     pipe_fd[2];
+    char    **cmd;
+    char    *path;
+    int     has_pipe;
+
+    cmd = build_argv(ms->args, start, end);
+    has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
+    if (has_pipe && pipe(pipe_fd) == -1)
+        exit_with_error(ms, "pipe");
+    pid = fork();
+    if (pid == 0)
+    {
+        if (ms->in_fd != STDIN_FILENO)
+        {
+            dup2(ms->in_fd, STDIN_FILENO);
+            close(ms->in_fd);
+        }
+        if (ms->out_fd != STDOUT_FILENO)
+        {
+            dup2(ms->out_fd, STDOUT_FILENO);
+            close(ms->out_fd);
+        }
+        if (has_pipe)
+        {
+            close(pipe_fd[0]);
+            dup2(pipe_fd[1], STDOUT_FILENO);
+            close(pipe_fd[1]);
+        }
+        path = find_in_path(cmd[0]);
+        if (!path)
+            exit_with_error(ms, "minishell: command not found");
+        execve(path, cmd, ms->envp);
+        free(path);
+        exit_with_error(ms, "execve");
+    }
+    if (ms->in_fd != STDIN_FILENO)
+        close(ms->in_fd);
+    if (ms->out_fd != STDOUT_FILENO)
+        close(ms->out_fd);
+    if (has_pipe)
+    {
+        close(pipe_fd[1]);
+        *prev_fd = pipe_fd[0];
+    }
+}
+
+static void	exec_subcmd(t_minishell *ms, int start, int end,
+		int *prev_fd)
+{
+	int	pipe_fd[2];
+
+	start_subprocess(ms, start, end, pipe_fd);
+	if (ms->in_fd != STDIN_FILENO)
+		close(ms->in_fd);
+	if (ms->out_fd != STDOUT_FILENO)
+		close(ms->out_fd);
+	if (ms->args[ms->pipe_count] && \
+		ft_strcmp(ms->args[ms->pipe_count], "|") == 0)
+	{
+		close(pipe_fd[1]);
+		*prev_fd = pipe_fd[0];
+	}
 }
 
 void	execute_command(t_minishell *ms)
 {
-	pid_t	pid;
-	int		status;
+	int	i;
+	int	prev_fd;
+	int	status;
+	int	start;
 
 	if (!ms->args || !ms->args[0])
 		return ;
-	if (execute_builtin(ms))
+	if (!has_pipe(ms->args) && execute_builtin(ms))
 		return ;
-	pid = fork();
-	if (pid == -1)
-		exit_with_error(ms, "fork");
-	else if (pid == 0)
-		child_process_logic(ms);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		ms->exit_code = WEXITSTATUS(status);
-	else
-		ms->exit_code = 1;
+	prev_fd = -1;
+	i = 0;
+	while (ms->args[i])
+	{
+		start = i;
+		while (ms->args[i] && ft_strcmp(ms->args[i], "|") != 0)
+			i++;
+		ms->in_fd = (prev_fd < 0 ? STDIN_FILENO : prev_fd);
+		ms->out_fd = STDOUT_FILENO;
+		handle_redirections(ms, start, i);
+		exec_subcmd(ms, start, i, &prev_fd);
+		if (ms->args[i] && ft_strcmp(ms->args[i], "|") == 0)
+			i++;
+	}
+	while (wait(&status) > 0)
+		if (WIFEXITED(status))
+			ms->exit_code = WEXITSTATUS(status);
 }

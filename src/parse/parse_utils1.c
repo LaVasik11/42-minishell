@@ -49,5 +49,6 @@ int	is_quote(char c)
 
 int	is_special(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\0');
+	return (c == ' ' || c == '\t' || c == '\0'
+		|| c == '<' || c == '>' || c == '|');
 }

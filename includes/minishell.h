@@ -25,6 +25,7 @@
 # include <linux/limits.h>
 # include "libft.h"
 # include <signal.h>
+# include <fcntl.h>
 
 # define MAX_ARGS 100
 
@@ -49,6 +50,9 @@ int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
+int		here_doc(const char *delimiter);
+int		has_pipe(char **args);
+int		execute_builtin(t_minishell *ms);
 
 char	**parse_input(t_minishell *ms);
 int		append_arg(char **args, int *k, t_minishell *ms, int *i);

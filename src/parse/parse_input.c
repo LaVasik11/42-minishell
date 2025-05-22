@@ -12,11 +12,41 @@
 
 #include "minishell.h"
 
+char	*get_operator(t_minishell *ms, int *i)
+{
+	char	*op;
+
+	if (ms->line[*i] == '<' && ms->line[*i + 1] == '<')
+	{
+		op = ft_strdup("<<");
+		*i += 2;
+	}
+	else if (ms->line[*i] == '>' && ms->line[*i + 1] == '>')
+	{
+		op = ft_strdup(">>");
+		*i += 2;
+	}
+	else
+	{
+		op = malloc(2);
+		if (!op)
+			return (NULL);
+		op[0] = ms->line[*i];
+		op[1] = '\0';
+		(*i)++;
+	}
+	return (op);
+}
+
 int	append_arg(char **args, int *k, t_minishell *ms, int *i)
 {
 	char	*arg;
 
-	if (is_quote(ms->line[*i]))
+	if (ms->line[*i] == '<'
+		|| ms->line[*i] == '>'
+		|| ms->line[*i] == '|')
+		arg = get_operator(ms, i);
+	else if (is_quote(ms->line[*i]))
 		arg = copy_quoted_arg(ms, i);
 	else
 		arg = copy_unquoted_arg(ms, i);
