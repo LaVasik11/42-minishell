@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 18:43:14 by gkankia          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 char	**build_argv(char **args, int start, int end)
@@ -106,34 +94,4 @@ void	exec_subcmd(t_minishell *ms, int start, int end,
 		close(pipe_fd[1]);
 		*prev_fd = pipe_fd[0];
 	}
-}
-
-void	execute_command(t_minishell *ms)
-{
-	int	i;
-	int	prev_fd;
-	int	status;
-	int	start;
-
-	if (!ms->args || !ms->args[0])
-		return ;
-	if (!has_pipe(ms->args) && execute_builtin(ms))
-		return ;
-	prev_fd = -1;
-	i = 0;
-	while (ms->args[i])
-	{
-		start = i;
-		while (ms->args[i] && ft_strcmp(ms->args[i], "|") != 0)
-			i++;
-		ms->in_fd = (prev_fd < 0 ? STDIN_FILENO : prev_fd);
-		ms->out_fd = STDOUT_FILENO;
-		handle_redirections(ms, start, i);
-		exec_subcmd(ms, start, i, &prev_fd);
-		if (ms->args[i] && ft_strcmp(ms->args[i], "|") == 0)
-			i++;
-	}
-	while (wait(&status) > 0)
-		if (WIFEXITED(status))
-			ms->exit_code = WEXITSTATUS(status);
 }

@@ -10,10 +10,8 @@ SRCS = src/minishell.c \
        src/signal.c \
        src/init.c \
        src/free_minishell.c \
-       src/execute_command.c \
        src/utils/utils.c \
 	   src/utils/path_utils.c \
-	   src/utils/execute_utils.c \
 	   src/parse/parse_input.c \
 	   src/parse/parse_utils1.c \
 	   src/parse/parse_utils2.c \
@@ -23,7 +21,10 @@ SRCS = src/minishell.c \
 	   src/builtins/exit.c \
 	   src/builtins/export.c \
 	   src/builtins/env.c \
-	   src/builtins/unset.c
+	   src/builtins/unset.c \
+	   src/execute/execute_command.c \
+	   src/execute/execute_utils1.c \
+	   src/execute/execute_utils2.c
 OBJS = ${SRCS:.c=.o}
 
 LIBFT_DIR = ./libft

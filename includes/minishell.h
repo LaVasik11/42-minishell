@@ -57,6 +57,11 @@ void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe);
 void	handle_parent_fds(t_minishell *ms, int pipe_fd[2], \
 	int has_pipe, int *prev_fd);
 
+char	**build_argv(char **args, int start, int end);
+void	handle_redirections(t_minishell *ms, int start, int end);
+void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd);
+void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd);
+
 char	**parse_input(t_minishell *ms);
 int		append_arg(char **args, int *k, t_minishell *ms, int *i);
 char	*copy_quoted_arg(t_minishell *ms, int *i);
