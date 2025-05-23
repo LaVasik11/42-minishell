@@ -29,16 +29,22 @@ char	*copy_segment(char *line, int start, int end)
 	return (segment);
 }
 
-char	*get_env_value(char *name)
+char	*get_env_value(char **envp, char *name)
 {
-	char	*value;
+	int		i;
+	size_t	len;
 
 	if (!name || !*name)
 		return (NULL);
-	value = getenv(name);
-	if (!value)
-		return (ft_strdup(""));
-	return (ft_strdup(value));
+	len = ft_strlen(name);
+	i = 0;
+	while (envp && envp[i])
+	{
+		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+			return (ft_strdup(envp[i] + len + 1));
+		i++;
+	}
+	return (ft_strdup(""));
 }
 
 char	*parse_dollar(t_minishell *ms, int *i)
@@ -64,7 +70,7 @@ char	*parse_dollar(t_minishell *ms, int *i)
 	if (!name)
 		return (NULL);
 	ft_strlcpy(name, &ms->line[start], len + 1);
-	value = get_env_value(name);
+	value = get_env_value(ms->envp, name);
 	free(name);
 	return (value);
 }

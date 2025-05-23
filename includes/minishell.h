@@ -78,7 +78,7 @@ int		is_quote(char c);
 int		is_special(char c);
 void	free_all(char **args, int count);
 char	*str_join_free(char *s1, char *s2);
-char	*get_env_value(char *name);
+char	*get_env_value(char **envp, char *name);
 
 void	free_all(char **args, int count);
 void	free_args(char **args);
