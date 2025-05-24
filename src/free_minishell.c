@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:29 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:32:00 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	free_minishell(t_minishell *shell)
 	}
 	shell->in_fd = 0;
 	shell->out_fd = 1;
-	shell->pipe_count = 0;
+	shell->pipe_c = 0;
 	shell->exit_code = 0;
 }

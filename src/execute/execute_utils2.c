@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
+/*   Updated: 2025/05/24 14:31:40 by gkankia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**build_argv(char **args, int start, int end)
@@ -88,8 +100,7 @@ void	exec_subcmd(t_minishell *ms, int start, int end,
 		close(ms->in_fd);
 	if (ms->out_fd != STDOUT_FILENO)
 		close(ms->out_fd);
-	if (ms->args[ms->pipe_count] && \
-		ft_strcmp(ms->args[ms->pipe_count], "|") == 0)
+	if (ms->args[ms->pipe_c] && ft_strcmp(ms->args[ms->pipe_c], "|") == 0)
 	{
 		close(pipe_fd[1]);
 		*prev_fd = pipe_fd[0];

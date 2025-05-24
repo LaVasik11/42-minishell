@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 14:26:48 by gkankia           #+#    #+#             */
+/*   Updated: 2025/05/24 14:28:04 by gkankia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	here_doc(const char *delimiter)
@@ -71,7 +83,7 @@ void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe)
 	}
 }
 
-void	handle_parent_fds(t_minishell *ms, int pipe_fd[2], \
+void	handle_parent_fds(t_minishell *ms, int pipe_fd[2],\
 	int has_pipe, int *prev_fd)
 {
 	if (ms->in_fd != STDIN_FILENO)

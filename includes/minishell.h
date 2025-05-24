@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 18:40:15 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:32:11 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_minishell
 	char	**envp;
 	char	**path_dirs;
 	int		last_exit_code;
-	int		pipe_count;
+	int		pipe_c;
 	int		*pipe_fds;
 	int		in_fd;
 	int		out_fd;
@@ -54,7 +54,7 @@ int		here_doc(const char *delimiter);
 int		has_pipe(char **args);
 int		execute_builtin(t_minishell *ms);
 void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe);
-void	handle_parent_fds(t_minishell *ms, int pipe_fd[2], \
+void	handle_parent_fds(t_minishell *ms, int pipe_fd[2],\
 	int has_pipe, int *prev_fd);
 
 char	**build_argv(char **args, int start, int end);
