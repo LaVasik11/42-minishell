@@ -47,6 +47,8 @@ char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result)
 			result = str_join_free(result, segment);
 		}
 	}
+	if (!result)
+		return (ft_strdup(""));
 	return (result);
 }
 
@@ -54,8 +56,7 @@ char	*copy_double_quoted(t_minishell *ms, int *i, int end)
 {
 	char	*result;
 
-	result = NULL;
-	result = copy_double_quoted_part(ms, i, end, result);
+	result = copy_double_quoted_part(ms, i, end, NULL);
 	*i = end + 1;
 	return (result);
 }

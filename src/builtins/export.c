@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+int	is_valid_identifier(char *arg)
+{
+	int	i;
+
+	if (!arg || !arg[0])
+		return (0);
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		return (0);
+	i = 1;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static void	print_export_line(char *entry)
 {
 	int	i;
@@ -25,11 +43,6 @@ static void	print_export_line(char *entry)
 	if (entry[i] == '=')
 		printf("=\"%s\"", entry + i + 1);
 	printf("\n");
-}
-
-static int	env_key_match(char *env_entry, char *arg, size_t len)
-{
-	return (ft_strncmp(env_entry, arg, len) == 0 && env_entry[len] == '=');
 }
 
 static char	**add_env_entry(char **envp, char *new_entry)
@@ -66,7 +79,7 @@ static void	add_or_update_env(t_minishell *sh, char *arg)
 		len++;
 	while (sh->envp && sh->envp[i])
 	{
-		if (env_key_match(sh->envp[i], arg, len))
+		if (ft_strncmp(sh->envp[i], arg, len) == 0 && sh->envp[i][len] == '=')
 		{
 			free(sh->envp[i]);
 			sh->envp[i] = ft_strdup(arg);
@@ -95,11 +108,21 @@ int	builtin_export(t_minishell *sh)
 		i = 1;
 		while (sh->args[i])
 		{
-			if (ft_strchr(sh->args[i], '='))
+			if (!is_valid_identifier(sh->args[i]))
+			{
+				ft_putstr_fd("minishell: export: `", 2);
+				ft_putstr_fd(sh->args[i], 2);
+				ft_putstr_fd("': not a valid identifier\n", 2);
+				sh->exit_code = 1;
+			}
+			else if (ft_strchr(sh->args[i], '='))
+			{
 				add_or_update_env(sh, sh->args[i]);
+			}
 			i++;
 		}
 	}
-	sh->exit_code = 0;
+	if (sh->exit_code == -1)
+		sh->exit_code = 0;
 	return (1);
 }

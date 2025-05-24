@@ -38,18 +38,35 @@ char	*get_operator(t_minishell *ms, int *i)
 	return (op);
 }
 
+char	*collect_argument(t_minishell *ms, int *i)
+{
+	char	*arg;
+	char	*piece;
+
+	arg = NULL;
+	while (ms->line[*i])
+	{
+		if (is_special(ms->line[*i]))
+			break ;
+		if (is_quote(ms->line[*i]))
+			piece = copy_quoted_arg(ms, i);
+		else
+			piece = copy_unquoted_arg(ms, i);
+		if (!piece)
+			return (free(arg), NULL);
+		arg = str_join_free(arg, piece);
+	}
+	return (arg);
+}
+
 int	append_arg(char **args, int *k, t_minishell *ms, int *i)
 {
 	char	*arg;
 
-	if (ms->line[*i] == '<'
-		|| ms->line[*i] == '>'
-		|| ms->line[*i] == '|')
+	if (ms->line[*i] == '<' || ms->line[*i] == '>' || ms->line[*i] == '|')
 		arg = get_operator(ms, i);
-	else if (is_quote(ms->line[*i]))
-		arg = copy_quoted_arg(ms, i);
 	else
-		arg = copy_unquoted_arg(ms, i);
+		arg = collect_argument(ms, i);
 	if (!arg)
 		return (0);
 	args[*k] = arg;
