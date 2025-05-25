@@ -14,9 +14,11 @@
 
 long long	ft_atoll(const char *str)
 {
-	long long	res = 0;
-	int	sign = 1;
+	long long	res;
+	int			sign;
 
+	sign = 1;
+	res = 0;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	if (*str == '-' || *str == '+')

@@ -21,20 +21,31 @@ char	*copy_single_quoted(char *line, int *i, int end)
 	return (segment);
 }
 
+char	*process_dollar(t_minishell *ms, int *i, char *result)
+{
+	char	*var;
+
+	var = parse_dollar(ms, i);
+	if (!var)
+	{
+		free(result);
+		return (NULL);
+	}
+	return (str_join_free(result, var));
+}
+
 char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result)
 {
 	char	*segment;
-	char	*var;
 	int		start;
 
 	while (*i < end)
 	{
 		if (ms->line[*i] == '$')
 		{
-			var = parse_dollar(ms, i);
-			if (!var)
-				return (free(result), NULL);
-			result = str_join_free(result, var);
+			result = process_dollar(ms, i, result);
+			if (!result)
+				return (NULL);
 		}
 		else
 		{

@@ -98,10 +98,7 @@ int	builtin_export(t_minishell *sh)
 	{
 		i = 0;
 		while (sh->envp && sh->envp[i])
-		{
-			print_export_line(sh->envp[i]);
-			i++;
-		}
+			print_export_line(sh->envp[i++]);
 	}
 	else
 	{
@@ -110,15 +107,10 @@ int	builtin_export(t_minishell *sh)
 		{
 			if (!is_valid_identifier(sh->args[i]))
 			{
-				ft_putstr_fd("minishell: export: `", 2);
-				ft_putstr_fd(sh->args[i], 2);
-				ft_putstr_fd("': not a valid identifier\n", 2);
 				sh->exit_code = 1;
 			}
 			else if (ft_strchr(sh->args[i], '='))
-			{
 				add_or_update_env(sh, sh->args[i]);
-			}
 			i++;
 		}
 	}

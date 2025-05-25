@@ -90,19 +90,11 @@ void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 	handle_parent_fds(ms, pipe_fd, has_pipe, prev_fd);
 }
 
-void	exec_subcmd(t_minishell *ms, int start, int end,
-		int *prev_fd)
+void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd)
 {
-	int	pipe_fd[2];
-
-	start_subprocess(ms, start, end, pipe_fd);
+	start_subprocess(ms, start, end, prev_fd);
 	if (ms->in_fd != STDIN_FILENO)
 		close(ms->in_fd);
 	if (ms->out_fd != STDOUT_FILENO)
 		close(ms->out_fd);
-	if (ms->args[ms->pipe_c] && ft_strcmp(ms->args[ms->pipe_c], "|") == 0)
-	{
-		close(pipe_fd[1]);
-		*prev_fd = pipe_fd[0];
-	}
 }
