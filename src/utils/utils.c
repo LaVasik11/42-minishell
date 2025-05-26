@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	exit_with_error(t_minishell *sh, const char *msg)
+void	exit_with_error(t_minishell *sh, char *msg)
 {
-	perror(msg);
+	ft_putendl_fd(msg, STDERR_FILENO);
 	free_minishell(sh);
 	exit(1);
 }
@@ -29,6 +29,38 @@ void	free_args(char **args)
 	free(args);
 }
 
+char	*ft_strcat(char *dest, const char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (dest[i])
+		i++;
+	j = 0;
+	while (src[j])
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
+
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 char	*join_path(char *dir, char *cmd)
 {
 	char	*path;
@@ -38,8 +70,8 @@ char	*join_path(char *dir, char *cmd)
 	path = malloc(len);
 	if (!path)
 		return (NULL);
-	strcpy(path, dir);
-	strcat(path, "/");
-	strcat(path, cmd);
+	ft_strcpy(path, dir);
+	ft_strcat(path, "/");
+	ft_strcat(path, cmd);
 	return (path);
 }

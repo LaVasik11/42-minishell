@@ -82,7 +82,7 @@ void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 		handle_child_fds(ms, pipe_fd, has_pipe);
 		path = find_in_path(cmd[0]);
 		if (!path)
-			exit_with_error(ms, "minishell: command not found");
+			exit_with_error(ms, " No such file or directory");
 		execve(path, cmd, ms->envp);
 		free(path);
 		exit_with_error(ms, "execve");

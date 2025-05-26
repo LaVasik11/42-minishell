@@ -85,7 +85,7 @@ void	free_args(char **args);
 char	*get_prompt(void);
 char	*find_in_path(char *cmd);
 char	*join_path(char *dir, char *cmd);
-void	exit_with_error(t_minishell *sh, const char *msg);
+void	exit_with_error(t_minishell *sh, char *msg);
 
 int		change_directory(t_minishell *sh);
 int		builtin_exit(t_minishell *sh);

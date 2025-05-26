@@ -107,11 +107,11 @@ int	builtin_export(t_minishell *sh)
 		{
 			if (!is_valid_identifier(sh->args[i]))
 			{
+				ft_putendl_fd(" not a valid identifier", STDERR_FILENO);
 				sh->exit_code = 1;
 			}
 			else if (ft_strchr(sh->args[i], '='))
-				add_or_update_env(sh, sh->args[i]);
-			i++;
+				add_or_update_env(sh, sh->args[i++]);
 		}
 	}
 	if (sh->exit_code == -1)
