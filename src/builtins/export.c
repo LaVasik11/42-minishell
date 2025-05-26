@@ -102,8 +102,8 @@ int	builtin_export(t_minishell *sh)
 	}
 	else
 	{
-		i = 1;
-		while (sh->args[i])
+		i = 0;
+		while (sh->args[++i])
 		{
 			if (!is_valid_identifier(sh->args[i]))
 			{
@@ -111,7 +111,7 @@ int	builtin_export(t_minishell *sh)
 				sh->exit_code = 1;
 			}
 			else if (ft_strchr(sh->args[i], '='))
-				add_or_update_env(sh, sh->args[i++]);
+				add_or_update_env(sh, sh->args[i]);
 		}
 	}
 	if (sh->exit_code == -1)
