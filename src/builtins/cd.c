@@ -41,7 +41,7 @@ int	change_directory(t_minishell *sh)
 	char		*current_pwd;
 
 	if (sh->args[2])
-		exit_with_error(sh, " too many arguments", 1);
+		return (printf("too many arguments\n"));
 	target = get_cd_target(sh, oldpwd);
 	if (!target)
 		return (sh->exit_code = 1, 0);
