@@ -64,6 +64,20 @@ O_CREAT | O_APPEND | O_WRONLY, 0644);
 	}
 }
 
+void	validate_exec_args(t_minishell *ms, char *path)
+{
+	struct stat	st;
+
+	if (!path || *path == '\0')
+		exit_with_error(ms, " command not found", 127);
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+		exit_with_error(ms, " Is a directory", 126);
+	if (access(path, F_OK) != 0)
+		exit_with_error(ms, " No such file or directory", 127);
+	if (access(path, X_OK) != 0)
+		exit_with_error(ms, " Permission denied", 126);
+}
+
 void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 {
 	pid_t	pid;
@@ -75,17 +89,18 @@ void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 	cmd = build_argv(ms->args, start, end);
 	has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
 	if (has_pipe && pipe(pipe_fd) == -1)
-		exit_with_error(ms, "pipe");
+		exit_with_error(ms, "pipe", 1);
 	pid = fork();
 	if (pid == 0)
 	{
 		handle_child_fds(ms, pipe_fd, has_pipe);
 		path = find_in_path(cmd[0]);
+		validate_exec_args(ms, path);
 		if (!path)
-			exit_with_error(ms, " No such file or directory");
+			exit_with_error(ms, " No such file or directory", 1);
 		execve(path, cmd, ms->envp);
 		free(path);
-		exit_with_error(ms, "execve");
+		exit_with_error(ms, "execve", 1);
 	}
 	handle_parent_fds(ms, pipe_fd, has_pipe, prev_fd);
 }

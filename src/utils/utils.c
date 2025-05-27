@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void	exit_with_error(t_minishell *sh, char *msg)
+void	exit_with_error(t_minishell *sh, char *msg, int status)
 {
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_minishell(sh);
-	exit(1);
+	exit(status);
 }
 
 void	free_args(char **args)
