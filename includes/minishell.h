@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:32:11 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:03:26 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_minishell
 	char	**args;
 	char	*prompt;
 	char	**envp;
-	char	**path_dirs;
 	int		last_exit_code;
 	int		pipe_c;
 	int		*pipe_fds;

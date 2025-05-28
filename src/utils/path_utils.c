@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:18 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:19 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:08:20 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	**split_dirs(char *path)
 	return (dirs);
 }
 
-static char	*search_dirs(char **dirs, char *cmd)
+char	*search_dirs(char **dirs, char *cmd)
 {
 	char	*full;
 	int		i;

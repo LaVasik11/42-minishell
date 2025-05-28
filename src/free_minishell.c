@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:32:00 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:03:20 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	free_minishell(t_minishell *shell)
 	shell->args = NULL;
 	free_array(shell->envp);
 	shell->envp = NULL;
-	free_array(shell->path_dirs);
-	shell->path_dirs = NULL;
 	if (shell->pipe_fds)
 	{
 		free(shell->pipe_fds);
