@@ -14,8 +14,15 @@
 
 char	*get_cd_target(t_minishell *sh, char *oldpwd)
 {
+	char	*home;
+
 	if (!sh->args[1])
-		return (get_env_value(sh->envp, "HOME"));
+	{
+		home = get_env_value(sh->envp, "HOME");
+		if (!home)
+			return (NULL);
+		return (ft_strdup(home));
+	}
 	if (sh->args[2])
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
@@ -55,7 +62,8 @@ int	change_directory(t_minishell *sh)
 		return (0);
 	}
 	free(oldpwd);
-	free(target);
+	if (target != sh->args[1] && target != oldpwd)
+		free(target);
 	oldpwd = current_pwd;
 	sh->exit_code = 0;
 	return (1);
