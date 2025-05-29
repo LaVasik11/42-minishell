@@ -101,9 +101,11 @@ void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 			exit_with_error(ms, " No such file or directory", 1);
 		execve(path, cmd, ms->envp);
 		free(path);
+		free_args(cmd);
 		exit_with_error(ms, "execve", 1);
 	}
 	handle_parent_fds(ms, pipe_fd, has_pipe, prev_fd);
+	free_args(cmd);
 }
 
 void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd)

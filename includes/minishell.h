@@ -36,9 +36,6 @@ typedef struct s_minishell
 	char	**args;
 	char	*prompt;
 	char	**envp;
-	int		last_exit_code;
-	int		pipe_c;
-	int		*pipe_fds;
 	int		in_fd;
 	int		out_fd;
 	int		is_running;

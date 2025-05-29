@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/
+CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/ -g
 LIBS = -lreadline
 RM = rm -rf
 

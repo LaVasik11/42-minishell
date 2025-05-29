@@ -21,11 +21,13 @@ char	*get_path_part(t_minishell *sh, char *cwd)
 	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
 	{
 		path_part = ft_strjoin("~", cwd + ft_strlen(home));
+		free(home);
 		if (!path_part)
 			return (NULL);
 	}
 	else
 	{
+		free(home);
 		path_part = ft_strdup(cwd);
 		if (!path_part)
 			return (NULL);
@@ -68,6 +70,7 @@ char	*get_prompt(t_minishell *sh)
 		user = "user";
 	prompt = build_prompt(user, path);
 	free(path);
+	free(user);
 	if (!prompt)
 		return (ft_strdup("minishell$ "));
 	return (prompt);

@@ -103,6 +103,7 @@ char	*find_in_path(t_minishell *sh, char *cmd)
 	if (!path_env)
 		return (NULL);
 	dirs = split_dirs(path_env);
+	free(path_env);
 	if (!dirs)
 		return (NULL);
 	return (search_dirs(dirs, cmd));

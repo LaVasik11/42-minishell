@@ -36,13 +36,7 @@ void	free_minishell(t_minishell *shell)
 	shell->args = NULL;
 	free_array(shell->envp);
 	shell->envp = NULL;
-	if (shell->pipe_fds)
-	{
-		free(shell->pipe_fds);
-		shell->pipe_fds = NULL;
-	}
 	shell->in_fd = 0;
 	shell->out_fd = 1;
-	shell->pipe_c = 0;
 	shell->exit_code = 0;
 }

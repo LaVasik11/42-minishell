@@ -55,6 +55,7 @@ int	change_directory(t_minishell *sh)
 		return (0);
 	}
 	free(oldpwd);
+	free(target);
 	oldpwd = current_pwd;
 	sh->exit_code = 0;
 	return (1);

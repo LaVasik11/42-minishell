@@ -45,11 +45,8 @@ void	init_shell(t_minishell *sh)
 	sh->args = NULL;
 	sh->prompt = NULL;
 	sh->envp = NULL;
-	sh->pipe_fds = NULL;
-	sh->pipe_c = 0;
 	sh->in_fd = 0;
 	sh->out_fd = 1;
-	sh->last_exit_code = 0;
 	sh->is_running = 1;
 	sh->exit_code = 0;
 }
