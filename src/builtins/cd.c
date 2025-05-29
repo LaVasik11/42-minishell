@@ -15,7 +15,7 @@
 char	*get_cd_target(t_minishell *sh, char *oldpwd)
 {
 	if (!sh->args[1])
-		return (getenv("HOME"));
+		return (get_env_value(sh->envp, "HOME"));
 	if (sh->args[2])
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);

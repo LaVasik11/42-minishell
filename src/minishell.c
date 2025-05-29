@@ -14,7 +14,7 @@
 
 void	process_command(t_minishell *ms)
 {
-	ms->prompt = get_prompt();
+	ms->prompt = get_prompt(ms);
 	ms->line = readline(ms->prompt);
 	free(ms->prompt);
 	ms->prompt = NULL;

@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-static char	*get_path_part(char *cwd)
+char	*get_path_part(t_minishell *sh, char *cwd)
 {
 	char	*home;
 	char	*path_part;
 
-	home = getenv("HOME");
+	home = get_env_value(sh->envp, "HOME");
 	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
 	{
 		path_part = ft_strjoin("~", cwd + ft_strlen(home));
@@ -51,7 +51,7 @@ static char	*build_prompt(char *user, char *path)
 	return (final);
 }
 
-char	*get_prompt(void)
+char	*get_prompt(t_minishell *sh)
 {
 	char	cwd[PATH_MAX];
 	char	*user;
@@ -60,10 +60,10 @@ char	*get_prompt(void)
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (ft_strdup("minishell$ "));
-	path = get_path_part(cwd);
+	path = get_path_part(sh, cwd);
 	if (!path)
 		return (ft_strdup("minishell$ "));
-	user = getenv("USER");
+	user = get_env_value(sh->envp, "USER");
 	if (!user)
 		user = "user";
 	prompt = build_prompt(user, path);

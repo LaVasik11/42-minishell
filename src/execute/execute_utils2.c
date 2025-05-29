@@ -93,8 +93,9 @@ void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		handle_child_fds(ms, pipe_fd, has_pipe);
-		path = find_in_path(cmd[0]);
+		path = find_in_path(ms, cmd[0]);
 		validate_exec_args(ms, path);
 		if (!path)
 			exit_with_error(ms, " No such file or directory", 1);

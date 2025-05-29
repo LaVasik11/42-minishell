@@ -83,8 +83,8 @@ int		check_infiles(char **args, t_minishell *sh);
 
 void	free_all(char **args, int count);
 void	free_args(char **args);
-char	*get_prompt(void);
-char	*find_in_path(char *cmd);
+char	*get_prompt(t_minishell *sh);
+char	*find_in_path(t_minishell *sh, char *cmd);
 char	*join_path(char *dir, char *cmd);
 void	exit_with_error(t_minishell *sh, char *msg, int status);
 

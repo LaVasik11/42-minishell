@@ -92,14 +92,14 @@ char	*search_dirs(char **dirs, char *cmd)
 	return (NULL);
 }
 
-char	*find_in_path(char *cmd)
+char	*find_in_path(t_minishell *sh, char *cmd)
 {
 	char	*path_env;
 	char	**dirs;
 
 	if (!cmd || ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	path_env = getenv("PATH");
+	path_env = get_env_value(sh->envp, "PATH");
 	if (!path_env)
 		return (NULL);
 	dirs = split_dirs(path_env);
