@@ -35,7 +35,7 @@ char	*get_path_part(t_minishell *sh, char *cwd)
 	return (path_part);
 }
 
-static char	*build_prompt(char *user, char *path)
+char	*build_prompt(char *user, char *path)
 {
 	char	*tmp;
 	char	*prompt;
