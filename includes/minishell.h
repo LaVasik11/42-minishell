@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:26 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:55:26 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
-int		here_doc(const char *delimiter);
+int		here_doc(char *delimiter);
 int		has_pipe(char **args);
 int		execute_builtin(t_minishell *ms);
 void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe);

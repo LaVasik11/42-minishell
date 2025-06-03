@@ -6,13 +6,13 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:48 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:28:04 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:55:10 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	here_doc(const char *delimiter)
+int	here_doc(char *delimiter)
 {
 	int		fds[2];
 	char	*line;
