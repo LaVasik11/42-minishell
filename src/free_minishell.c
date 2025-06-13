@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:20 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:21:43 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	free_minishell(t_minishell *shell)
 		return ;
 	free(shell->line);
 	shell->line = NULL;
-	free(shell->prompt);
-	shell->prompt = NULL;
 	free_array(shell->args);
 	shell->args = NULL;
 	free_array(shell->envp);

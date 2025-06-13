@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:27:18 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:26:35 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_cd_target(t_minishell *sh, char *oldpwd)
 		home = get_env_value(sh->envp, "HOME");
 		if (!home)
 			return (NULL);
-		return (ft_strdup(home));
+		return (home);
 	}
 	if (sh->args[2])
 	{

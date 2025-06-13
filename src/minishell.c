@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:36 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:24:06 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	process_command(t_minishell *ms)
 {
-	ms->prompt = get_prompt(ms);
-	ms->line = readline(ms->prompt);
-	free(ms->prompt);
-	ms->prompt = NULL;
+	char	*prompt;	
+
+	prompt = get_prompt(ms);
+	ms->line = readline(prompt);
+	free(prompt);
+	prompt = NULL;
 	if (ms->line == NULL)
 	{
 		printf("\nexit\n");

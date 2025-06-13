@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/03 16:55:26 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:21:47 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_minishell
 {
 	char	*line;
 	char	**args;
-	char	*prompt;
 	char	**envp;
 	int		in_fd;
 	int		out_fd;

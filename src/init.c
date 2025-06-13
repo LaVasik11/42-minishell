@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:32 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:30 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:21:39 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	init_shell(t_minishell *sh)
 {
 	sh->line = NULL;
 	sh->args = NULL;
-	sh->prompt = NULL;
 	sh->envp = NULL;
 	sh->in_fd = 0;
 	sh->out_fd = 1;
