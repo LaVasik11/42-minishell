@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:04 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:05 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 18:52:24 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ int	append_arg(char **args, int *k, t_minishell *ms, int *i)
 		arg = collect_argument(ms, i);
 	if (!arg)
 		return (0);
-	args[*k] = arg;
-	(*k)++;
+	if (arg != NULL && arg[0] != '\0')
+	{
+		args[*k] = arg;
+		(*k)++;
+	}
 	return (1);
 }
 
