@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 17:26:35 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 19:06:41 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_cd_target(t_minishell *sh, char *oldpwd)
 	}
 	if (sh->args[2])
 	{
-		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("too many arguments", STDERR_FILENO);
 		return (NULL);
 	}
 	if (ft_strcmp(sh->args[1], "-") == 0)
@@ -48,7 +48,7 @@ int	change_directory(t_minishell *sh)
 	char		*current_pwd;
 
 	if (sh->args[2])
-		return (printf("too many arguments\n"));
+		return (0);
 	target = get_cd_target(sh, oldpwd);
 	if (!target)
 		return (sh->exit_code = 1, 0);

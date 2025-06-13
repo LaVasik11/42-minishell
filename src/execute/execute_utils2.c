@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:31:40 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/13 19:19:01 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void	validate_exec_args(t_minishell *ms, char *path)
 {
 	struct stat	st;
 
+	if (ft_strcmp(ms->args[0], "cd") == 0 && ms->args[2])
+		exit_with_error(ms, " too many arguments", 1);
+	if (ft_strcmp(ms->args[0], "cd") == 0 && (!path || *path == '\0'))
+		exit_with_error(ms, " No such file or directory", 1);
 	if (!path || *path == '\0')
 		exit_with_error(ms, " command not found", 127);
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
