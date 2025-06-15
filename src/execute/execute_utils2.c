@@ -55,7 +55,7 @@ void	validate_exec_args(t_minishell *ms, char *path)
 		exit_with_error(ms, " Permission denied", 126);
 }
 
-static void	child_process(t_minishell *ms, t_subprocess_data *data)
+void	child_process(t_minishell *ms, t_subprocess_data *data)
 {
 	char	*path;
 
