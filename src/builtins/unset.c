@@ -32,20 +32,22 @@ void	remove_env_var(char ***envp, const char *name)
 {
 	int	i;
 	int	j;
+	int	len;
 
+	len = ft_strlen(name);
 	i = 0;
 	while ((*envp)[i])
 	{
-		if (ft_strncmp((*envp)[i], name, ft_strlen(name)) == 0
-			&& (*envp)[i][ft_strlen(name)] == '=')
+		if (ft_strncmp((*envp)[i], name, len) == 0 && (*envp)[i][len] == '=')
 		{
 			free((*envp)[i]);
 			j = i;
-			while ((*envp)[j])
+			while ((*envp)[j + 1])
 			{
 				(*envp)[j] = (*envp)[j + 1];
 				j++;
 			}
+			(*envp)[j] = NULL;
 			return ;
 		}
 		i++;

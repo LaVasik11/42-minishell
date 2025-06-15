@@ -12,6 +12,59 @@
 
 #include "minishell.h"
 
+int	process_redirection(t_minishell *ms, char *redir, char *file)
+{
+	if (ft_strcmp(redir, "<") == 0)
+	{
+		ms->in_fd = open(file, O_RDONLY);
+		if (ms->in_fd < 0)
+			return (1);
+	}
+	else if (ft_strcmp(redir, ">") == 0)
+	{
+		ms->out_fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		if (ms->out_fd < 0)
+			return (1);
+	}
+	else if (ft_strcmp(redir, ">>") == 0)
+	{
+		ms->out_fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		if (ms->out_fd < 0)
+			return (1);
+	}
+	else if (ft_strcmp(redir, "<<") == 0)
+	{
+		ms->in_fd = here_doc(file);
+		if (ms->in_fd < 0)
+			return (1);
+	}
+	return (0);
+}
+
+int	handle_redirections(t_minishell *ms, int start, int end)
+{
+	int		i;
+	int		err;
+
+	err = 0;
+	i = start;
+	while (i < end)
+	{
+		if ((ft_strcmp(ms->args[i], "<") == 0 \
+			|| ft_strcmp(ms->args[i], ">") == 0 \
+			|| ft_strcmp(ms->args[i], ">>") == 0 \
+			|| ft_strcmp(ms->args[i], "<<") == 0) && i + 1 < end)
+		{
+			if (process_redirection(ms, ms->args[i], ms->args[i + 1]))
+				err = 1;
+			i += 2;
+		}
+		else
+			i++;
+	}
+	return (err);
+}
+
 void	update_fds(t_minishell *ms, int *prev_fd)
 {
 	if (*prev_fd < 0)

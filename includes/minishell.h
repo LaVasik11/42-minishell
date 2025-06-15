@@ -41,6 +41,14 @@ typedef struct s_minishell
 	int		exit_code;
 }	t_minishell;
 
+typedef struct s_subprocess_data
+{
+	int	pipe_fd[2];
+	int	has_pipe;
+	char	**cmd;
+	int	redir_error;
+}	t_subprocess_data;
+
 void	init_shell(t_minishell *sh);
 int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
@@ -54,7 +62,7 @@ void	handle_parent_fds(t_minishell *ms, int pipe_fd[2],\
 	int has_pipe, int *prev_fd);
 
 char	**build_argv(char **args, int start, int end);
-void	handle_redirections(t_minishell *ms, int start, int end);
+int		handle_redirections(t_minishell *ms, int start, int end);
 void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd);
 void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd);
 

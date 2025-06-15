@@ -37,33 +37,6 @@ char	**build_argv(char **args, int start, int end)
 	return (argv);
 }
 
-void	handle_redirections(t_minishell *ms, int start, int end)
-{
-	int	i;
-
-	i = start;
-	while (i < end)
-	{
-		if (ft_strcmp(ms->args[i], "<") == 0 && i + 1 < end)
-			ms->in_fd = open(ms->args[i + 1], O_RDONLY);
-		else if (ft_strcmp(ms->args[i], ">") == 0 && i + 1 < end)
-			ms->out_fd = open(ms->args[i + 1], \
-O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		else if (ft_strcmp(ms->args[i], ">>") == 0 && i + 1 < end)
-			ms->out_fd = open(ms->args[i + 1], \
-O_CREAT | O_APPEND | O_WRONLY, 0644);
-		else if (ft_strcmp(ms->args[i], "<<") == 0 && i + 1 < end)
-			ms->in_fd = here_doc(ms->args[i + 1]);
-		if (ft_strcmp(ms->args[i], "<") == 0
-			|| ft_strcmp(ms->args[i], ">") == 0
-			|| ft_strcmp(ms->args[i], ">>") == 0
-			|| ft_strcmp(ms->args[i], "<<") == 0)
-			i += 2;
-		else
-			i++;
-	}
-}
-
 void	validate_exec_args(t_minishell *ms, char *path)
 {
 	struct stat	st;
@@ -82,38 +55,38 @@ void	validate_exec_args(t_minishell *ms, char *path)
 		exit_with_error(ms, " Permission denied", 126);
 }
 
-void	start_subprocess(t_minishell *ms, int start, int end, int *prev_fd)
+static void	child_process(t_minishell *ms, t_subprocess_data *data)
 {
-	pid_t	pid;
-	int		pipe_fd[2];
-	int		has_pipe;
-	char	**cmd;
 	char	*path;
 
-	cmd = build_argv(ms->args, start, end);
-	has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
-	if (has_pipe && pipe(pipe_fd) == -1)
-		exit_with_error(ms, "pipe", 1);
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		handle_child_fds(ms, pipe_fd, has_pipe);
-		path = find_in_path(ms, cmd[0]);
-		validate_exec_args(ms, path);
-		if (!path)
-			exit_with_error(ms, " No such file or directory", 1);
-		execve(path, cmd, ms->envp);
-		free(path);
-		exit_with_error(ms, "execve", 1);
-	}
-	handle_parent_fds(ms, pipe_fd, has_pipe, prev_fd);
-	free_args(cmd);
+	signal(SIGQUIT, SIG_DFL);
+	handle_child_fds(ms, data->pipe_fd, data->has_pipe);
+	if (data->redir_error)
+		exit(1);
+	path = find_in_path(ms, data->cmd[0]);
+	validate_exec_args(ms, path);
+	if (!path)
+		exit_with_error(ms, " No such file or directory", 1);
+	execve(path, data->cmd, ms->envp);
+	free(path);
+	exit_with_error(ms, "execve", 1);
 }
 
 void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd)
 {
-	start_subprocess(ms, start, end, prev_fd);
+	pid_t				pid;
+	t_subprocess_data	data;
+
+	data.cmd = build_argv(ms->args, start, end);
+	data.has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
+	if (data.has_pipe && pipe(data.pipe_fd) == -1)
+		exit_with_error(ms, "pipe", 1);
+	data.redir_error = handle_redirections(ms, start, end);
+	pid = fork();
+	if (pid == 0)
+		child_process(ms, &data);
+	handle_parent_fds(ms, data.pipe_fd, data.has_pipe, prev_fd);
+	free_args(data.cmd);
 	if (ms->in_fd != STDIN_FILENO)
 		close(ms->in_fd);
 	if (ms->out_fd != STDOUT_FILENO)
