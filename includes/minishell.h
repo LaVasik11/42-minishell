@@ -52,6 +52,7 @@ typedef struct s_subprocess_data
 void	init_shell(t_minishell *sh);
 int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
+void	check_signal(t_minishell *sh);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
 int		here_doc(char *delimiter);

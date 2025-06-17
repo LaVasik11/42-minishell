@@ -18,6 +18,7 @@ void	process_command(t_minishell *ms)
 
 	prompt = get_prompt(ms);
 	ms->line = readline(prompt);
+	check_signal(ms);
 	free(prompt);
 	prompt = NULL;
 	if (ms->line == NULL)
@@ -52,5 +53,5 @@ int	main(int argc, char **argv, char **envp)
 	while (ms.is_running)
 		process_command(&ms);
 	free_minishell(&ms);
-	return (0);
+	return (ms.exit_code);
 }

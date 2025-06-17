@@ -82,6 +82,8 @@ void	wait_for_children(t_minishell *ms)
 	{
 		if (WIFEXITED(status))
 			ms->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ms->exit_code = 128 + WTERMSIG(status);
 	}
 }
 

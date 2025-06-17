@@ -16,6 +16,8 @@ void	exit_with_error(t_minishell *sh, char *msg, int status)
 {
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_minishell(sh);
+	if (status == -1)
+		exit(sh->exit_code);
 	exit(status);
 }
 
