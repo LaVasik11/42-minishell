@@ -99,8 +99,6 @@ void	execute_command(t_minishell *ms)
 	int	start;
 	int	prev_fd;
 
-	if (!check_infiles(ms->args, ms))
-		return ;
 	if (!ms->args || !ms->args[0])
 		return ;
 	if (!has_pipe(ms->args) && execute_builtin(ms))
