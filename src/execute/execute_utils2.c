@@ -59,7 +59,9 @@ void	child_process(t_minishell *ms, t_subprocess_data *data)
 {
 	char	*path;
 
+	signal(SIGPIPE, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	handle_child_fds(ms, data->pipe_fd, data->has_pipe);
 	if (data->redir_error)
 		exit(1);
@@ -81,10 +83,13 @@ void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd)
 	data.has_pipe = (ms->args[end] && ft_strcmp(ms->args[end], "|") == 0);
 	if (data.has_pipe && pipe(data.pipe_fd) == -1)
 		exit_with_error(ms, "pipe", 1);
-	data.redir_error = handle_redirections(ms, start, end);
 	pid = fork();
 	if (pid == 0)
+	{
+		data.redir_error = handle_redirections(ms, start, end);
 		child_process(ms, &data);
+	}
+	ms->last_pid = pid;
 	handle_parent_fds(ms, data.pipe_fd, data.has_pipe, prev_fd);
 	free_args(data.cmd);
 	if (ms->in_fd != STDIN_FILENO)

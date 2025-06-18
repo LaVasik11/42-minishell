@@ -76,14 +76,20 @@ void	update_fds(t_minishell *ms, int *prev_fd)
 
 void	wait_for_children(t_minishell *ms)
 {
-	int	status;
+	int		status;
+	pid_t	wpid;
 
-	while (wait(&status) > 0)
+	wpid = wait(&status);
+	while (wpid > 0)
 	{
-		if (WIFEXITED(status))
-			ms->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			ms->exit_code = 128 + WTERMSIG(status);
+		if (wpid == ms->last_pid)
+		{
+			if (WIFEXITED(status))
+				ms->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				ms->exit_code = 128 + WTERMSIG(status);
+		}
+		wpid = wait(&status);
 	}
 }
 
@@ -107,7 +113,6 @@ void	execute_command(t_minishell *ms)
 		while (ms->args[i] && ft_strcmp(ms->args[i], "|") != 0)
 			i++;
 		update_fds(ms, &prev_fd);
-		handle_redirections(ms, start, i);
 		exec_subcmd(ms, start, i, &prev_fd);
 		if (ms->args[i] && ft_strcmp(ms->args[i], "|") == 0)
 			i++;

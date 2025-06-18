@@ -39,6 +39,7 @@ typedef struct s_minishell
 	int		out_fd;
 	int		is_running;
 	int		exit_code;
+	pid_t	last_pid;
 }	t_minishell;
 
 typedef struct s_subprocess_data
