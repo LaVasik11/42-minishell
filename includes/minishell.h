@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 17:21:47 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/19 16:51:26 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,23 @@ void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
 int		here_doc(char *delimiter);
 int		has_pipe(char **args);
-int		execute_builtin(t_minishell *ms);
-void	handle_child_fds(t_minishell *ms, int pipe_fd[2], int has_pipe);
-void	handle_parent_fds(t_minishell *ms, int pipe_fd[2],\
+int		execute_builtin(t_minishell *sh);
+void	handle_child_fds(t_minishell *sh, int pipe_fd[2], int has_pipe);
+void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
 	int has_pipe, int *prev_fd);
 
 char	**build_argv(char **args, int start, int end);
-int		handle_redirections(t_minishell *ms, int start, int end);
-void	child_process(t_minishell *ms, t_subprocess_data *data);
-void	exec_subcmd(t_minishell *ms, int start, int end, int *prev_fd);
+int		handle_redirections(t_minishell *sh, int start, int end);
+void	child_process(t_minishell *sh, t_subprocess_data *data);
+void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd);
 
-char	**parse_input(t_minishell *ms);
-int		append_arg(char **args, int *k, t_minishell *ms, int *i);
-char	*copy_quoted_arg(t_minishell *ms, int *i);
-char	*copy_unquoted_arg(t_minishell *ms, int *i);
-char	*copy_double_quoted(t_minishell *ms, int *i, int end);
-char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *res);
-char	*parse_dollar(t_minishell *ms, int *i);
+char	**parse_input(t_minishell *sh);
+int		append_arg(char **args, int *k, t_minishell *sh, int *i);
+char	*copy_quoted_arg(t_minishell *sh, int *i);
+char	*copy_unquoted_arg(t_minishell *sh, int *i);
+char	*copy_double_quoted(t_minishell *sh, int *i, int end);
+char	*copy_double_quoted_part(t_minishell *sh, int *i, int end, char *res);
+char	*parse_dollar(t_minishell *sh, int *i);
 char	*copy_single_quoted(char *line, int *i, int end);
 char	*copy_segment(char *line, int start, int end);
 char	*copy_unquoted_segment(char *line, int *i);

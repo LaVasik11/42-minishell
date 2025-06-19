@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:13 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:14 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/19 16:54:10 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_env_value(char **envp, char *name)
 	return (ft_strdup(""));
 }
 
-char	*parse_dollar(t_minishell *ms, int *i)
+char	*parse_dollar(t_minishell *sh, int *i)
 {
 	int		start;
 	int		len;
@@ -55,13 +55,13 @@ char	*parse_dollar(t_minishell *ms, int *i)
 	char	*value;
 
 	(*i)++;
-	if (ms->line[*i] == '?')
+	if (sh->line[*i] == '?')
 	{
 		(*i)++;
-		return (ft_itoa(ms->exit_code));
+		return (ft_itoa(sh->exit_code));
 	}
 	start = *i;
-	while (ms->line[*i] && (ft_isalnum(ms->line[*i]) || ms->line[*i] == '_'))
+	while (sh->line[*i] && (ft_isalnum(sh->line[*i]) || sh->line[*i] == '_'))
 		(*i)++;
 	len = *i - start;
 	if (len == 0)
@@ -69,8 +69,8 @@ char	*parse_dollar(t_minishell *ms, int *i)
 	name = malloc(len + 1);
 	if (!name)
 		return (NULL);
-	ft_strlcpy(name, &ms->line[start], len + 1);
-	value = get_env_value(ms->envp, name);
+	ft_strlcpy(name, &sh->line[start], len + 1);
+	value = get_env_value(sh->envp, name);
 	free(name);
 	return (value);
 }

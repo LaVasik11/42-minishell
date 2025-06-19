@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:54:54 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:54:55 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/19 17:57:37 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*copy_single_quoted(char *line, int *i, int end)
 	return (segment);
 }
 
-char	*process_dollar(t_minishell *ms, int *i, char *result)
+char	*process_dollar(t_minishell *sh, int *i, char *result)
 {
 	char	*var;
 
-	var = parse_dollar(ms, i);
+	var = parse_dollar(sh, i);
 	if (!var)
 	{
 		free(result);
@@ -34,25 +34,25 @@ char	*process_dollar(t_minishell *ms, int *i, char *result)
 	return (str_join_free(result, var));
 }
 
-char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result)
+char	*copy_double_quoted_part(t_minishell *sh, int *i, int end, char *result)
 {
 	char	*segment;
 	int		start;
 
 	while (*i < end)
 	{
-		if (ms->line[*i] == '$')
+		if (sh->line[*i] == '$')
 		{
-			result = process_dollar(ms, i, result);
+			result = process_dollar(sh, i, result);
 			if (!result)
 				return (NULL);
 		}
 		else
 		{
 			start = *i;
-			while (*i < end && ms->line[*i] != '$')
+			while (*i < end && sh->line[*i] != '$')
 				(*i)++;
-			segment = copy_segment(ms->line, start, *i);
+			segment = copy_segment(sh->line, start, *i);
 			if (!segment)
 				return (free(result), NULL);
 			result = str_join_free(result, segment);
@@ -63,26 +63,26 @@ char	*copy_double_quoted_part(t_minishell *ms, int *i, int end, char *result)
 	return (result);
 }
 
-char	*copy_double_quoted(t_minishell *ms, int *i, int end)
+char	*copy_double_quoted(t_minishell *sh, int *i, int end)
 {
 	char	*result;
 
-	result = copy_double_quoted_part(ms, i, end, NULL);
+	result = copy_double_quoted_part(sh, i, end, NULL);
 	*i = end + 1;
 	return (result);
 }
 
-char	*copy_quoted_arg(t_minishell *ms, int *i)
+char	*copy_quoted_arg(t_minishell *sh, int *i)
 {
 	char	quote;
 	int		end;
 
-	quote = ms->line[*i];
-	end = find_closing_quote(ms->line, *i, quote);
+	quote = sh->line[*i];
+	end = find_closing_quote(sh->line, *i, quote);
 	if (end == -1)
 		return (NULL);
 	*i = *i + 1;
 	if (quote == '\'')
-		return (copy_single_quoted(ms->line, i, end));
-	return (copy_double_quoted(ms, i, end));
+		return (copy_single_quoted(sh->line, i, end));
+	return (copy_double_quoted(sh, i, end));
 }

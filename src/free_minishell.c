@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 17:21:43 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/19 17:57:03 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,16 @@ static void	free_array(char **arr)
 	free(arr);
 }
 
-void	free_minishell(t_minishell *shell)
+void	free_minishell(t_minishell *sh)
 {
-	if (!shell)
+	if (!sh)
 		return ;
-	free(shell->line);
-	shell->line = NULL;
-	free_array(shell->args);
-	shell->args = NULL;
-	free_array(shell->envp);
-	shell->envp = NULL;
-	shell->in_fd = 0;
-	shell->out_fd = 1;
-	shell->exit_code = 0;
+	free(sh->line);
+	sh->line = NULL;
+	free_array(sh->args);
+	sh->args = NULL;
+	free_array(sh->envp);
+	sh->envp = NULL;
+	sh->in_fd = 0;
+	sh->out_fd = 1;
 }

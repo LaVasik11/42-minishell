@@ -6,52 +6,52 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 18:34:17 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/06/19 17:57:12 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_command(t_minishell *ms)
+void	process_command(t_minishell *sh)
 {
 	char	*prompt;	
 
-	prompt = get_prompt(ms);
-	ms->line = readline(prompt);
-	check_signal(ms);
+	prompt = get_prompt(sh);
+	sh->line = readline(prompt);
+	check_signal(sh);
 	free(prompt);
 	prompt = NULL;
-	if (ms->line == NULL)
+	if (sh->line == NULL)
 	{
 		printf("\nexit\n");
-		ms->is_running = 0;
+		sh->is_running = 0;
 		return ;
 	}
-	add_history(ms->line);
-	ms->args = parse_input(ms);
-	if (ms->args && ms->args[0] != NULL)
-		execute_command(ms);
-	free_args(ms->args);
-	ms->args = NULL;
-	free(ms->line);
-	ms->line = NULL;
+	add_history(sh->line);
+	sh->args = parse_input(sh);
+	if (sh->args && sh->args[0] != NULL)
+		execute_command(sh);
+	free_args(sh->args);
+	sh->args = NULL;
+	free(sh->line);
+	sh->line = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell	ms;
+	t_minishell	sh;
 
 	(void)argc;
 	(void)argv;
-	init_shell(&ms);
-	if (!init_env(&ms, envp))
+	init_shell(&sh);
+	if (!init_env(&sh, envp))
 	{
 		perror("init_env");
 		return (1);
 	}
 	setup_signals();
-	while (ms.is_running)
-		process_command(&ms);
-	free_minishell(&ms);
-	return (ms.exit_code);
+	while (sh.is_running)
+		process_command(&sh);
+	free_minishell(&sh);
+	return (sh.exit_code);
 }
