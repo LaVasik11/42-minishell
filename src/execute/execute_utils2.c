@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/19 17:40:48 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/08 20:53:43 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void	validate_exec_args(t_minishell *sh, char *path)
 	struct stat	st;
 
 	if (ft_strcmp(sh->args[0], "cd") == 0 && sh->args[2])
-		exit_with_error(sh, " too many arguments", 1);
+		exit_with_error(sh, "Too many arguments", 1);
 	if (ft_strcmp(sh->args[0], "cd") == 0 && (!path || *path == '\0'))
-		exit_with_error(sh, " No such file or directory", 1);
+		exit_with_error(sh, "No such file or directory", 1);
 	if (!path || *path == '\0')
-		exit_with_error(sh, " command not found", 127);
+		exit_with_error(sh, "Command not found", 127);
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
-		exit_with_error(sh, " Is a directory", 126);
+		exit_with_error(sh, "Is a directory", 126);
 	if (access(path, F_OK) != 0)
-		exit_with_error(sh, " No such file or directory", 127);
+		exit_with_error(sh, "No such file or directory", 127);
 	if (access(path, X_OK) != 0)
-		exit_with_error(sh, " Permission denied", 126);
+		exit_with_error(sh, "Permission denied", 126);
 }
 
 void	child_process(t_minishell *sh, t_subprocess_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:21 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:22 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/08 20:53:53 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,16 @@
 
 void	exit_with_error(t_minishell *sh, char *msg, int status)
 {
-	ft_putendl_fd(msg, STDERR_FILENO);
+	char	*full_msg;
+
+	if (ft_strcmp(msg, "Command not found") == 0 && sh->args[0])
+	{
+		full_msg = ft_strjoin(sh->args[0], ": command not found");
+		ft_putendl_fd(full_msg, STDERR_FILENO);
+		free(full_msg);
+	}
+	else
+		ft_putendl_fd(msg, STDERR_FILENO);
 	free_minishell(sh);
 	if (status == -1)
 		exit(sh->exit_code);
