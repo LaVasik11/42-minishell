@@ -1,3 +1,0 @@
-georgy-kankiya:~/projects/test/42-project/minishell$ ls /notexist 2>/dev/null; echo $?
-georgy-kankiya:~/projects/test/42-project/minishell$ exit
-exit
