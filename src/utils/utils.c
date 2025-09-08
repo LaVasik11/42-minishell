@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:21 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/08 20:53:53 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/08 21:31:29 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	exit_with_error(t_minishell *sh, char *msg, int status)
 	if (ft_strcmp(msg, "Command not found") == 0 && sh->args[0])
 	{
 		full_msg = ft_strjoin(sh->args[0], ": command not found");
+		ft_putendl_fd(full_msg, STDERR_FILENO);
+		free(full_msg);
+	}
+	else if (ft_strcmp(msg, "No such file or directory") == 0 && sh->args[0])
+	{
+		full_msg = ft_strjoin(sh->args[0], ": No such file or directory");
 		ft_putendl_fd(full_msg, STDERR_FILENO);
 		free(full_msg);
 	}
