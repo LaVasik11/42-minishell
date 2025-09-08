@@ -12,6 +12,7 @@ SRCS = src/minishell.c \
        src/free_minishell.c \
        src/utils/utils.c \
 	   src/utils/path_utils.c \
+	   src/utils/cd_utils.c \
 	   src/parse/parse_input.c \
 	   src/parse/parse_utils1.c \
 	   src/parse/parse_utils2.c \

@@ -1,0 +1,66 @@
+#include "minishell.h"
+
+static int	update_existing_var(char **env, const char *key,
+	char *new_entry, int len)
+{
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
+		{
+			free(env[i]);
+			env[i] = new_entry;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+static int	append_new_var(char ***envp, char *new_entry, int size)
+{
+	char	**new_env;
+	int		i;
+
+	new_env = malloc(sizeof(char *) * (size + 2));
+	if (!new_env)
+		return (free(new_entry), 0);
+	i = 0;
+	while (i < size)
+	{
+		new_env[i] = (*envp)[i];
+		i++;
+	}
+	new_env[size] = new_entry;
+	new_env[size + 1] = NULL;
+	free(*envp);
+	*envp = new_env;
+	return (1);
+}
+
+int	set_env_value(char ***envp, const char *key, const char *value)
+{
+	char	*tmp;
+	char	*new_entry;
+	int		len;
+	int		size;
+
+	if (!key || !value)
+		return (0);
+	len = ft_strlen(key);
+	tmp = ft_strjoin(key, "=");
+	if (!tmp)
+		return (0);
+	new_entry = ft_strjoin(tmp, value);
+	free(tmp);
+	if (!new_entry)
+		return (0);
+	if (update_existing_var(*envp, key, new_entry, len))
+		return (1);
+	size = 0;
+	while (*envp && (*envp)[size])
+		size++;
+	return (append_new_var(envp, new_entry, size));
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/19 16:51:26 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:44:50 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ int		builtin_env(t_minishell *sh);
 int		builtin_export(t_minishell *sh);
 int		builtin_unset(t_minishell *sh);
 
+int		set_env_value(char ***envp, const char *key, const char *value);
 #endif

@@ -3,19 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 19:06:41 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/07 20:50:33 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_cd_target(t_minishell *sh, char *oldpwd)
+static void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
 {
+	if (oldpwd)
+		set_env_value(&sh->envp, "OLDPWD", oldpwd);
+	if (newpwd)
+		set_env_value(&sh->envp, "PWD", newpwd);
+}
+
+static char	*get_cd_target(t_minishell *sh, char *oldpwd)
+{
+	char	*target;
 	char	*home;
 
+	home = NULL;
 	if (!sh->args[1])
 	{
 		home = get_env_value(sh->envp, "HOME");
@@ -25,46 +35,60 @@ char	*get_cd_target(t_minishell *sh, char *oldpwd)
 	}
 	if (sh->args[2])
 	{
-		ft_putendl_fd("too many arguments", STDERR_FILENO);
+		ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
 		return (NULL);
 	}
 	if (ft_strcmp(sh->args[1], "-") == 0)
 	{
 		if (!oldpwd)
-		{
 			return (NULL);
-		}
-		write(1, oldpwd, ft_strlen(oldpwd));
-		write(1, "\n", 1);
-		return (oldpwd);
+		ft_putendl_fd(oldpwd, STDOUT_FILENO);
+		return (ft_strdup(oldpwd));
 	}
-	return (sh->args[1]);
+	target = ft_strdup(sh->args[1]);
+	return (target);
+}
+
+static int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
+{
+	char	*cwd_after;
+
+	if (chdir(target) != 0)
+	{
+		perror("cd");
+		free(target);
+		free(cwd_before);
+		sh->exit_code = 1;
+		return (0);
+	}
+	cwd_after = getcwd(NULL, 0);
+	if (!cwd_after)
+		cwd_after = ft_strdup(target);
+	update_env_pwd(sh, cwd_before, cwd_after);
+	free(cwd_after);
+	return (1);
 }
 
 int	change_directory(t_minishell *sh)
 {
 	static char	*oldpwd = NULL;
 	char		*target;
-	char		*current_pwd;
+	char		*cwd_before;
 
-	if (sh->args[2])
-		return (0);
 	target = get_cd_target(sh, oldpwd);
 	if (!target)
-		return (sh->exit_code = 1, 0);
-	current_pwd = getcwd(NULL, 0);
-	if (!current_pwd)
-		return (perror("getcwd"), sh->exit_code = 1, 0);
-	if (chdir(target) != 0)
 	{
-		free(current_pwd);
 		sh->exit_code = 1;
 		return (0);
 	}
+	cwd_before = get_env_value(sh->envp, "PWD");
+	if (!cwd_before)
+		cwd_before = getcwd(NULL, 0);
+	if (!do_chdir(sh, target, cwd_before))
+		return (0);
 	free(oldpwd);
-	if (target != sh->args[1] && target != oldpwd)
-		free(target);
-	oldpwd = current_pwd;
+	oldpwd = cwd_before;
+	free(target);
 	sh->exit_code = 0;
 	return (1);
 }
