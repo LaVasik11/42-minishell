@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/07 20:50:33 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/08 20:38:45 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ static char	*get_cd_target(t_minishell *sh, char *oldpwd)
 		return (home);
 	}
 	if (sh->args[2])
-	{
-		ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
 		return (NULL);
-	}
 	if (ft_strcmp(sh->args[1], "-") == 0)
 	{
 		if (!oldpwd)
@@ -55,7 +52,6 @@ static int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
 
 	if (chdir(target) != 0)
 	{
-		perror("cd");
 		free(target);
 		free(cwd_before);
 		sh->exit_code = 1;
