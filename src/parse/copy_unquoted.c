@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:01 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 21:24:16 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/09 21:28:46 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*handle_dollar(t_minishell *sh, int *i, char *result)
 	}
 	return (str_join_free(result, tmp));
 }
+
 char	*handle_backslash(t_minishell *sh, int *i, char *result)
 {
 	char	buf[2];
