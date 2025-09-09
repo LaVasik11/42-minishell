@@ -6,13 +6,13 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:01 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 13:28:29 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/09 21:24:16 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_dollar(t_minishell *sh, int *i, char *result)
+char	*handle_dollar(t_minishell *sh, int *i, char *result)
 {
 	char	*tmp;
 
@@ -24,8 +24,7 @@ static char	*handle_dollar(t_minishell *sh, int *i, char *result)
 	}
 	return (str_join_free(result, tmp));
 }
-
-static char	*handle_backslash(t_minishell *sh, int *i, char *result)
+char	*handle_backslash(t_minishell *sh, int *i, char *result)
 {
 	char	buf[2];
 	char	*tmp;
@@ -46,7 +45,7 @@ static char	*handle_backslash(t_minishell *sh, int *i, char *result)
 	return (result);
 }
 
-static char	*handle_regular_char(t_minishell *sh, int *i, char *result)
+char	*handle_regular_char(t_minishell *sh, int *i, char *result)
 {
 	char	buf[2];
 	char	*tmp;

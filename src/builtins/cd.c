@@ -6,13 +6,13 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/08 20:38:45 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/09 21:24:44 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
+void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
 {
 	if (oldpwd)
 		set_env_value(&sh->envp, "OLDPWD", oldpwd);
@@ -20,7 +20,7 @@ static void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
 		set_env_value(&sh->envp, "PWD", newpwd);
 }
 
-static char	*get_cd_target(t_minishell *sh, char *oldpwd)
+char	*get_cd_target(t_minishell *sh, char *oldpwd)
 {
 	char	*target;
 	char	*home;
@@ -46,7 +46,7 @@ static char	*get_cd_target(t_minishell *sh, char *oldpwd)
 	return (target);
 }
 
-static int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
+int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
 {
 	char	*cwd_after;
 

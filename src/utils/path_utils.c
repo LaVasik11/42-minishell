@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:18 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/28 17:08:20 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/09 21:26:21 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count_dirs(char *path)
+int	count_dirs(char *path)
 {
 	int	count;
 	int	i;
@@ -28,7 +28,7 @@ static int	count_dirs(char *path)
 	return (count);
 }
 
-static char	*copy_part(char *src, int start, int end)
+char	*copy_part(char *src, int start, int end)
 {
 	char	*part;
 	int		len;
@@ -45,7 +45,7 @@ static char	*copy_part(char *src, int start, int end)
 	return (part);
 }
 
-static char	**split_dirs(char *path)
+char	**split_dirs(char *path)
 {
 	char	**dirs;
 	int		i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:31 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:27:32 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/09 21:25:52 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_valid_identifier(char *arg)
 	return (1);
 }
 
-static void	print_export_line(char *entry)
+void	print_export_line(char *entry)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ static void	print_export_line(char *entry)
 	printf("\n");
 }
 
-static char	**add_env_entry(char **envp, char *new_entry)
+char	**add_env_entry(char **envp, char *new_entry)
 {
 	int		i;
 	char	**new_env;
@@ -68,7 +68,7 @@ static char	**add_env_entry(char **envp, char *new_entry)
 	return (new_env);
 }
 
-static void	add_or_update_env(t_minishell *sh, char *arg)
+void	add_or_update_env(t_minishell *sh, char *arg)
 {
 	int		i;
 	size_t	len;

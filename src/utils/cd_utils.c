@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	update_existing_var(char **env, const char *key,
+int	update_existing_var(char **env, const char *key,
 	char *new_entry, int len)
 {
 	int	i;
@@ -19,7 +19,7 @@ static int	update_existing_var(char **env, const char *key,
 	return (0);
 }
 
-static int	append_new_var(char ***envp, char *new_entry, int size)
+int	append_new_var(char ***envp, char *new_entry, int size)
 {
 	char	**new_env;
 	int		i;
