@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_quoted.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:54:54 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/19 17:57:37 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/09 13:35:43 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,18 @@ char	*process_dollar(t_minishell *sh, int *i, char *result)
 
 char	*copy_double_quoted_part(t_minishell *sh, int *i, int end, char *result)
 {
-	char	*segment;
-	int		start;
-
 	while (*i < end)
 	{
-		if (sh->line[*i] == '$')
+		if (sh->line[*i] == '\\')
+			result = handle_backslash_dquote(sh, i, end, result);
+		else if (sh->line[*i] == '$')
 		{
-			result = process_dollar(sh, i, result);
+			result = handle_dollar_dquote(sh, i, result);
 			if (!result)
 				return (NULL);
 		}
 		else
-		{
-			start = *i;
-			while (*i < end && sh->line[*i] != '$')
-				(*i)++;
-			segment = copy_segment(sh->line, start, *i);
-			if (!segment)
-				return (free(result), NULL);
-			result = str_join_free(result, segment);
-		}
+			result = append_segment(sh, i, end, result);
 	}
 	if (!result)
 		return (ft_strdup(""));

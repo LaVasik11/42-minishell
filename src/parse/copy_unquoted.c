@@ -3,51 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   copy_unquoted.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:01 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/19 16:53:32 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/09 13:28:29 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*copy_unquoted_segment(char *line, int *i)
+static char	*handle_dollar(t_minishell *sh, int *i, char *result)
 {
-	char	*segment;
-	int		start;
+	char	*tmp;
 
-	start = *i;
-	while (line[*i] && !is_special(line[*i]) && !is_quote(line[*i])
-		&& line[*i] != '$')
+	tmp = parse_dollar(sh, i);
+	if (!tmp)
+	{
+		free(result);
+		return (NULL);
+	}
+	return (str_join_free(result, tmp));
+}
+
+static char	*handle_backslash(t_minishell *sh, int *i, char *result)
+{
+	char	buf[2];
+	char	*tmp;
+
+	(*i)++;
+	if (sh->line[*i])
+	{
+		buf[0] = sh->line[*i];
+		buf[1] = '\0';
+		tmp = ft_strdup(buf);
+		if (!tmp)
+			return (free(result), NULL);
+		result = str_join_free(result, tmp);
 		(*i)++;
-	segment = copy_segment(line, start, *i);
-	return (segment);
+	}
+	else
+		result = str_join_free(result, ft_strdup("\\"));
+	return (result);
+}
+
+static char	*handle_regular_char(t_minishell *sh, int *i, char *result)
+{
+	char	buf[2];
+	char	*tmp;
+
+	buf[0] = sh->line[*i];
+	buf[1] = '\0';
+	tmp = ft_strdup(buf);
+	if (!tmp)
+		return (free(result), NULL);
+	result = str_join_free(result, tmp);
+	(*i)++;
+	return (result);
 }
 
 char	*copy_unquoted_arg(t_minishell *sh, int *i)
 {
 	char	*result;
-	char	*segment;
-	char	*var;
 
 	result = NULL;
 	while (sh->line[*i] && !is_special(sh->line[*i]) && !is_quote(sh->line[*i]))
 	{
 		if (sh->line[*i] == '$')
-		{
-			var = parse_dollar(sh, i);
-			if (!var)
-				return (free(result), NULL);
-			result = str_join_free(result, var);
-		}
+			result = handle_dollar(sh, i, result);
+		else if (sh->line[*i] == '\\')
+			result = handle_backslash(sh, i, result);
 		else
-		{
-			segment = copy_unquoted_segment(sh->line, i);
-			if (!segment)
-				return (free(result), NULL);
-			result = str_join_free(result, segment);
-		}
+			result = handle_regular_char(sh, i, result);
+		if (!result)
+			return (NULL);
 	}
 	return (result);
 }

@@ -18,7 +18,7 @@ SRCS = src/minishell.c \
 	   src/parse/parse_utils2.c \
 	   src/parse/copy_quoted.c \
 	   src/parse/copy_unquoted.c \
-	   src/parse/check_infiles.c \
+	   src/parse/parse_utils3.c \
 	   src/builtins/cd.c \
 	   src/builtins/exit.c \
 	   src/builtins/export.c \

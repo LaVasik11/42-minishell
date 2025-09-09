@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/08 13:44:50 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/09 13:40:10 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int		append_arg(char **args, int *k, t_minishell *sh, int *i);
 char	*copy_quoted_arg(t_minishell *sh, int *i);
 char	*copy_unquoted_arg(t_minishell *sh, int *i);
 char	*copy_double_quoted(t_minishell *sh, int *i, int end);
-char	*copy_double_quoted_part(t_minishell *sh, int *i, int end, char *res);
+char	*copy_double_quoted_part(t_minishell *sh, int *i,\
+	int end, char *result);
 char	*parse_dollar(t_minishell *sh, int *i);
 char	*copy_single_quoted(char *line, int *i, int end);
 char	*copy_segment(char *line, int start, int end);
@@ -101,4 +102,10 @@ int		builtin_export(t_minishell *sh);
 int		builtin_unset(t_minishell *sh);
 
 int		set_env_value(char ***envp, const char *key, const char *value);
+char	*copy_escaped_char(char *line, int *i);
+char	*append_segment(t_minishell *sh, int *i, int end, char *result);
+char	*handle_backslash_dquote(t_minishell *sh, int *i, int end,\
+	char *result);
+char	*handle_dollar_dquote(t_minishell *sh, int *i, char *result);
+char	*process_dollar(t_minishell *sh, int *i, char *result);
 #endif
