@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:09 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/16 17:55:10 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/10 12:29:33 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,17 @@ int	skip_spaces(char *line, int i)
 int	find_closing_quote(char *line, int i, char quote)
 {
 	i++;
-	while (line[i] && line[i] != quote)
+	while (line[i])
+	{
+		if (line[i] == '\\' && line[i + 1])
+		{
+			i += 2;
+			continue;
+		}
+		if (line[i] == quote)
+			return (i);
 		i++;
-	if (line[i] == quote)
-		return (i);
+	}
 	return (-1);
 }
 
