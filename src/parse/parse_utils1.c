@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:09 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/10 12:31:06 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/10 12:33:36 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	find_closing_quote(char *line, int i, char quote)
 		if (line[i] == '\\' && line[i + 1])
 		{
 			i += 2;
-			continue;
+			continue ;
 		}
 		if (line[i] == quote)
 			return (i);
