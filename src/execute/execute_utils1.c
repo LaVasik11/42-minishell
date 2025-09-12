@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:48 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/12 11:37:41 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/12 14:11:35 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ int	execute_builtin(t_minishell *sh)
 		return (builtin_export(sh));
 	else if (ft_strcmp(sh->args[0], "unset") == 0)
 		return (builtin_unset(sh));
+	else if (ft_strcmp(sh->args[0], "echo") == 0)
+		return (builtin_echo(sh));
+	else if (ft_strcmp(sh->args[0], "pwd") == 0)
+		return (print_working_directory(sh));
 	return (0);
 }
 
