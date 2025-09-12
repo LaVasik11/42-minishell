@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 21:26:55 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/12 13:37:59 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ typedef struct s_subprocess_data
 	int		redir_error;
 }	t_subprocess_data;
 
+typedef struct s_builtin_exec
+{
+	t_minishell	*sh;
+	int			start;
+	int			end;
+	int			saved_stdin;
+	int			saved_stdout;
+	char		**cmd_argv;
+}	t_builtin_exec;
+
 void	init_shell(t_minishell *sh);
 int		init_env(t_minishell *sh, char **envp);
 void	setup_signals(void);
@@ -65,7 +75,8 @@ void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
 
 char	**build_argv(char **args, int start, int end);
 int		handle_redirections(t_minishell *sh, int start, int end);
-void	child_process(t_minishell *sh, t_subprocess_data *data);
+void	child_process(t_minishell *sh,\
+	t_subprocess_data *data, int start, int end);
 void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd);
 
 char	**parse_input(t_minishell *sh);
@@ -108,4 +119,8 @@ char	*handle_backslash_dquote(t_minishell *sh, int *i, int end,\
 	char *result);
 char	*handle_dollar_dquote(t_minishell *sh, int *i, char *result);
 char	*process_dollar(t_minishell *sh, int *i, char *result);
+
+int		is_builtin_cmd(char *cmd);
+void	execute_builtin_in_parent(t_minishell *sh, int start, int end);
+char	**add_env_entry(char **envp, char *new_entry);
 #endif

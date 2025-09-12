@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/19 17:41:46 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/12 11:50:04 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ void	execute_command(t_minishell *sh)
 	int	prev_fd;
 
 	if (!sh->args || !sh->args[0])
-		return ;
-	if (!has_pipe(sh->args) && execute_builtin(sh))
 		return ;
 	i = 0;
 	prev_fd = -1;

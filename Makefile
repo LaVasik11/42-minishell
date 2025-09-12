@@ -26,7 +26,8 @@ SRCS = src/minishell.c \
 	   src/builtins/unset.c \
 	   src/execute/execute_command.c \
 	   src/execute/execute_utils1.c \
-	   src/execute/execute_utils2.c
+	   src/execute/execute_utils2.c \
+	   src/execute/execute_utils3.c
 OBJS = ${SRCS:.c=.o}
 
 LIBFT_DIR = ./libft

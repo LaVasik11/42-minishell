@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:31 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 21:25:52 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/12 13:21:02 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,6 @@ void	print_export_line(char *entry)
 	printf("\n");
 }
 
-char	**add_env_entry(char **envp, char *new_entry)
-{
-	int		i;
-	char	**new_env;
-
-	i = 0;
-	while (envp && envp[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
-	if (!new_env)
-		return (envp);
-	i = 0;
-	while (envp && envp[i])
-	{
-		new_env[i] = envp[i];
-		i++;
-	}
-	new_env[i++] = new_entry;
-	new_env[i] = NULL;
-	free(envp);
-	return (new_env);
-}
-
 void	add_or_update_env(t_minishell *sh, char *arg)
 {
 	int		i;
@@ -90,31 +67,44 @@ void	add_or_update_env(t_minishell *sh, char *arg)
 	sh->envp = add_env_entry(sh->envp, ft_strdup(arg));
 }
 
+void	process_export_args(t_minishell *sh)
+{
+	int	i;
+
+	i = 1;
+	sh->exit_code = 0;
+	while (sh->args[i])
+	{
+		if (!is_valid_identifier(sh->args[i]))
+		{
+			ft_putstr_fd("export: ", STDERR_FILENO);
+			ft_putstr_fd(sh->args[i], STDERR_FILENO);
+			ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+			sh->exit_code = 1;
+		}
+		else if (ft_strchr(sh->args[i], '='))
+			add_or_update_env(sh, sh->args[i]);
+		i++;
+	}
+}
+
 int	builtin_export(t_minishell *sh)
 {
 	int	i;
 
+	if (!sh->args || !sh->args[0])
+		return (0);
 	if (!sh->args[1])
 	{
 		i = 0;
 		while (sh->envp && sh->envp[i])
-			print_export_line(sh->envp[i++]);
+		{
+			print_export_line(sh->envp[i]);
+			i++;
+		}
+		sh->exit_code = 0;
 	}
 	else
-	{
-		i = 0;
-		while (sh->args[++i])
-		{
-			if (!is_valid_identifier(sh->args[i]))
-			{
-				ft_putendl_fd(" not a valid identifier", STDERR_FILENO);
-				sh->exit_code = 1;
-			}
-			else if (ft_strchr(sh->args[i], '='))
-				add_or_update_env(sh, sh->args[i]);
-		}
-	}
-	if (sh->exit_code == -1)
-		sh->exit_code = 0;
+		process_export_args(sh);
 	return (1);
 }
