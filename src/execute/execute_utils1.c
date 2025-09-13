@@ -6,19 +6,18 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:48 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/12 14:11:35 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/13 17:57:47 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	here_doc(char *delimiter)
+void	run_here_doc(int *fds, char *delimiter)
 {
-	int		fds[2];
 	char	*line;
 
-	if (pipe(fds) == -1)
-		return (-1);
+	signal(SIGINT, SIG_DFL);
+	close(fds[0]);
 	while (1)
 	{
 		line = readline("> ");
@@ -32,6 +31,29 @@ int	here_doc(char *delimiter)
 		free(line);
 	}
 	close(fds[1]);
+	exit(0);
+}
+
+int	here_doc(char *delimiter)
+{
+	int		fds[2];
+	pid_t	pid;
+	int		status;
+
+	if (pipe(fds) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+		run_here_doc(fds, delimiter);
+	close(fds[1]);
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		close(fds[0]);
+		return (-1);
+	}
 	return (fds[0]);
 }
 
@@ -84,19 +106,5 @@ void	handle_child_fds(t_minishell *sh, int pipe_fd[2], int has_pipe)
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-	}
-}
-
-void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
-	int has_pipe, int *prev_fd)
-{
-	if (sh->in_fd != STDIN_FILENO)
-		close(sh->in_fd);
-	if (sh->out_fd != STDOUT_FILENO)
-		close(sh->out_fd);
-	if (has_pipe)
-	{
-		close(pipe_fd[1]);
-		*prev_fd = pipe_fd[0];
 	}
 }

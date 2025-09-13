@@ -21,7 +21,7 @@ int	is_builtin_cmd(char *cmd)
 	return (0);
 }
 
-static void	restore_fds(t_minishell *sh, int saved_stdin, int saved_stdout)
+void	restore_fds(t_minishell *sh, int saved_stdin, int saved_stdout)
 {
 	if (saved_stdin >= 0)
 	{
@@ -45,7 +45,7 @@ static void	restore_fds(t_minishell *sh, int saved_stdin, int saved_stdout)
 	}
 }
 
-static int	prepare_builtin_execution(t_builtin_exec *exec)
+int	prepare_builtin_execution(t_builtin_exec *exec)
 {
 	exec->saved_stdin = dup(STDIN_FILENO);
 	exec->saved_stdout = dup(STDOUT_FILENO);
@@ -84,4 +84,18 @@ void	execute_builtin_in_parent(t_minishell *sh, int start, int end)
 	sh->args = old_args;
 	restore_fds(sh, exec.saved_stdin, exec.saved_stdout);
 	free_args(exec.cmd_argv);
+}
+
+void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
+	int has_pipe, int *prev_fd)
+{
+	if (sh->in_fd != STDIN_FILENO)
+		close(sh->in_fd);
+	if (sh->out_fd != STDOUT_FILENO)
+		close(sh->out_fd);
+	if (has_pipe)
+	{
+		close(pipe_fd[1]);
+		*prev_fd = pipe_fd[0];
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/12 13:37:20 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/13 17:52:02 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int start, int end)
 	exit_with_error(sh, "execve", 1);
 }
 
-static void	fork_and_exec_child(t_minishell *sh, \
+void	fork_and_exec_child(t_minishell *sh, \
 t_subprocess_data *data, int start, int end)
 {
 	pid_t	pid;
