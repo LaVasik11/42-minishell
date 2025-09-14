@@ -64,3 +64,12 @@ int	set_env_value(char ***envp, const char *key, const char *value)
 		size++;
 	return (append_new_var(envp, new_entry, size));
 }
+
+void	update_fds(t_minishell *sh, int *prev_fd)
+{
+	if (*prev_fd < 0)
+		sh->in_fd = STDIN_FILENO;
+	else
+		sh->in_fd = *prev_fd;
+	sh->out_fd = STDOUT_FILENO;
+}

@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/12 14:00:29 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/14 18:09:27 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,5 @@ void	execute_builtin_in_parent(t_minishell *sh, int start, int end);
 char	**add_env_entry(char **envp, char *new_entry);
 int		print_working_directory(t_minishell *sh);
 int		builtin_echo(t_minishell *sh);
+void	update_fds(t_minishell *sh, int *prev_fd);
 #endif
