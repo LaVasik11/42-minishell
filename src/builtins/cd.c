@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 16:06:30 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 21:11:31 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_cd_target(t_minishell *sh, char *oldpwd)
 	char	*home;
 
 	home = NULL;
-	if (!sh->args[1])
+	if (!sh->args[1] || ft_strcmp(sh->args[1], "~") == 0)
 	{
 		home = get_env_value(sh->envp, "HOME");
 		if (!home)
