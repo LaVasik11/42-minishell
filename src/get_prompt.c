@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:36 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 18:26:30 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:07:27 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char	*build_prompt(char *user, char *path)
 	char	*prompt;
 	char	*final;
 
-	tmp2 = ft_strjoin(CYAN, user);
+	tmp2 = ft_strjoin(RED, user);
 	tmp1 = ft_strjoin(tmp2, ":");
 	free(tmp2);
 	if (!tmp1)
 		return (NULL);
-	tmp2 = ft_strjoin(GREEN, path);
+	tmp2 = ft_strjoin(CYAN, path);
 	prompt = ft_strjoin(tmp1, tmp2);
 	free(tmp2);
 	free(tmp1);

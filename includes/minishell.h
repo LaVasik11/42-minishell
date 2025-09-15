@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 18:24:11 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:07:31 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 # define MAX_ARGS 100
 # define RESET      "\001\033[0m\002"
-# define GREEN  "\001\033[1;32m\002"
+# define RED  "\001\033[1;31m\002"
 # define CYAN   "\001\033[1;36m\002"
 
 typedef struct s_minishell
