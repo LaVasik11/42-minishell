@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 20:03:11 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 20:24:36 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	handle_redirections(t_minishell *sh, int start, int end)
 	{
 		fflush(NULL);
 		if ((is_redirections(sh, i) && i + 1 < end && \
-is_redirections(sh, i + 1)) || (is_redirections(sh, i) && (i + 1) == end))
+is_redirections(sh, i + 1)))
 		{
 			sh->exit_code = 2;
 			return (1);
