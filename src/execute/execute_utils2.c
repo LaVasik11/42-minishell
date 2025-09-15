@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/13 17:52:02 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 15:26:57 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,6 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 		return ;
 	}
 	data.has_pipe = (sh->args[end] && ft_strcmp(sh->args[end], "|") == 0);
-	if (is_builtin_cmd(data.cmd[0]) && !data.has_pipe)
-	{
-		execute_builtin_in_parent(sh, start, end);
-		free_args(data.cmd);
-		return ;
-	}
 	if (data.has_pipe && pipe(data.pipe_fd) == -1)
 		exit_with_error(sh, "pipe", 1);
 	fork_and_exec_child(sh, &data, start, end);
