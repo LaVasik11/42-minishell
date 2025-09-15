@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/12 11:38:15 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 16:06:30 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
 
 	if (chdir(target) != 0)
 	{
+		perror("minishell: cd");
 		free(target);
 		free(cwd_before);
 		sh->exit_code = 1;
@@ -74,6 +75,10 @@ int	change_directory(t_minishell *sh)
 	target = get_cd_target(sh, oldpwd);
 	if (!target)
 	{
+		if (sh->args[2])
+			ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
+		else
+			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 		sh->exit_code = 1;
 		return (0);
 	}
