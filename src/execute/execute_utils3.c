@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:50:36 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 14:50:37 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:38:26 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ int	prepare_builtin_execution(t_builtin_exec *exec)
 	if (!exec->cmd_argv || !exec->cmd_argv[0])
 		return (1);
 	if (handle_redirections(exec->sh, exec->start, exec->end))
-	{
-		exec->sh->exit_code = 1;
 		return (1);
-	}
 	if (exec->sh->in_fd != STDIN_FILENO)
 		dup2(exec->sh->in_fd, STDIN_FILENO);
 	if (exec->sh->out_fd != STDOUT_FILENO)

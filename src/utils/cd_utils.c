@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:50:17 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 14:50:18 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:39:25 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,14 @@ void	update_fds(t_minishell *sh, int *prev_fd)
 	else
 		sh->in_fd = *prev_fd;
 	sh->out_fd = STDOUT_FILENO;
+}
+
+int	is_redirections(t_minishell *sh, int i)
+{
+	if (ft_strcmp(sh->args[i], "<") == 0
+		|| ft_strcmp(sh->args[i], ">") == 0
+		|| ft_strcmp(sh->args[i], ">>") == 0
+		|| ft_strcmp(sh->args[i], "<<") == 0)
+		return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/14 18:08:12 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 19:39:47 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,19 @@ int	handle_redirections(t_minishell *sh, int start, int end)
 	i = start;
 	while (i < end)
 	{
-		if ((ft_strcmp(sh->args[i], "<") == 0
-				|| ft_strcmp(sh->args[i], ">") == 0
-				|| ft_strcmp(sh->args[i], ">>") == 0
-				|| ft_strcmp(sh->args[i], "<<") == 0) && i + 1 < end)
+		if (is_redirections(sh, i) && i + 1 < end && \
+is_redirections(sh, i + 1))
+		{
+			sh->exit_code = 2;
+			return (1);
+		}
+		if (is_redirections(sh, i) && i + 1 < end)
 		{
 			if (handle_single_redir(sh, sh->args[i], sh->args[i + 1]))
+			{
+				sh->exit_code = 1;
 				return (1);
+			}
 			i += 2;
 		}
 		else
