@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_quoted.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:54:54 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/10 12:28:53 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 20:13:49 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ char	*copy_quoted_arg(t_minishell *sh, int *i)
 	quote = sh->line[*i];
 	end = find_closing_quote(sh->line, *i, quote);
 	if (end == -1)
+	{
+		ft_putendl_fd("Please close the scopes", STDERR_FILENO);
 		return (NULL);
+	}
 	*i = *i + 1;
 	if (quote == '\'')
 		return (copy_single_quoted(sh->line, i, end));
