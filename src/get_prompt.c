@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:36 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/07 20:12:06 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 18:26:30 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,23 @@ char	*get_path_part(t_minishell *sh, char *cwd)
 
 char	*build_prompt(char *user, char *path)
 {
-	char	*tmp;
+	char	*tmp1;
+	char	*tmp2;
 	char	*prompt;
 	char	*final;
 
-	tmp = ft_strjoin(user, ":");
-	if (!tmp)
+	tmp2 = ft_strjoin(CYAN, user);
+	tmp1 = ft_strjoin(tmp2, ":");
+	free(tmp2);
+	if (!tmp1)
 		return (NULL);
-	prompt = ft_strjoin(tmp, path);
-	free(tmp);
+	tmp2 = ft_strjoin(GREEN, path);
+	prompt = ft_strjoin(tmp1, tmp2);
+	free(tmp2);
+	free(tmp1);
 	if (!prompt)
 		return (NULL);
-	final = ft_strjoin(prompt, "$ ");
+	final = ft_strjoin(prompt, RESET"$ ");
 	free(prompt);
 	return (final);
 }
