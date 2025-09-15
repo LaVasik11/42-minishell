@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/05/24 14:27:23 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 18:09:06 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	is_numeric(const char *str)
 	int	i;
 
 	i = 0;
+	if (ft_strlen(str) > 19 || \
+(ft_strlen(str) == 19 && ft_strcmp(str, "9223372036854775807") > 0))
+		return (0);
 	if (!str)
 		return (0);
 	if (str[i] == '+' || str[i] == '-')
