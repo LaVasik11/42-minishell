@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 20:28:23 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 20:50:16 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 20:57:44 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	check_no_command_redirection(t_minishell *sh)
 {
 	if (!sh->args[1])
+		sh->exit_code = 2;
+	else if (is_redirections(sh, 0) && is_redirections(sh, 1))
 		sh->exit_code = 2;
 	else if (ft_strcmp(sh->args[0], "<") == 0)
 	{
