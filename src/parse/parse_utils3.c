@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:42:19 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/10 12:28:01 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/15 14:51:06 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*handle_backslash_dquote(t_minishell *sh, int *i, int end, char *result)
 	char	buf[3];
 
 	if ((*i + 1 < end) && (sh->line[*i + 1] == '$' || \
-		sh->line[*i + 1] == '"' || sh->line[*i + 1] == '\\'))
+sh->line[*i + 1] == '"' || sh->line[*i + 1] == '\\'))
 	{
 		buf[0] = sh->line[*i + 1];
 		buf[1] = '\0';
