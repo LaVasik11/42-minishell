@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 16:05:13 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/15 20:03:32 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 	if (!data.cmd || !data.cmd[0])
 	{
 		free_args(data.cmd);
+		sh->exit_code = 2;
 		return ;
 	}
 	data.has_pipe = (sh->args[end] && ft_strcmp(sh->args[end], "|") == 0);
