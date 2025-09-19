@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 20:50:31 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/18 14:06:42 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,5 @@ int		builtin_echo(t_minishell *sh);
 void	update_fds(t_minishell *sh, int *prev_fd);
 int		is_redirections(t_minishell *sh, int i);
 void	check_no_command_redirection(t_minishell *sh);
-
+void	free_array(char **arr);
 #endif

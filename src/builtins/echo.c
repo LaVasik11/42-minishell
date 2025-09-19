@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:22:25 by tmkrtumy          #+#    #+#             */
-/*   Updated: 2025/09/11 19:44:25 by tmkrtumy         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:23:52 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	builtin_echo(t_minishell *sh)
 	int	newline;
 
 	i = 1;
+	newline = 1;
 	while (sh->args[i] && is_flag_n(sh->args[i]))
 	{
 		newline = 0;

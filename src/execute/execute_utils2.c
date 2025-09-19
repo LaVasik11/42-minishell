@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 20:29:34 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/19 15:15:58 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,19 @@ int start, int end)
 		exit(1);
 	if (is_builtin_cmd(data->cmd[0]))
 	{
+		free_args(sh->args);
 		sh->args = data->cmd;
 		if (execute_builtin(sh))
 			exit(sh->exit_code);
+		free_minishell(sh);
 		exit(0);
 	}
 	path = find_in_path(sh, data->cmd[0]);
 	validate_exec_args(sh, path, start, end);
 	if (!path)
 		exit_with_error(sh, "No such file or directory", 127);
+	free_args(sh->args);
+	sh->args = NULL;
 	execve(path, data->cmd, sh->envp);
 	free(path);
 	exit_with_error(sh, "execve", 1);

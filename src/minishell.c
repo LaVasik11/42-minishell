@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 18:01:52 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/19 15:07:19 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&sh);
 	if (!init_env(&sh, envp))
 	{
+		free_array(sh.envp);
 		perror("init_env");
 		return (1);
 	}
