@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/19 15:15:58 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/19 17:47:04 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int start, int end)
 	if (!path)
 		exit_with_error(sh, "No such file or directory", 127);
 	free_args(sh->args);
-	sh->args = NULL;
 	execve(path, data->cmd, sh->envp);
 	free(path);
 	exit_with_error(sh, "execve", 1);
@@ -121,7 +120,10 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 		return ;
 	}
 	if (data.has_pipe && pipe(data.pipe_fd) == -1)
+	{
+		free_args(data.cmd);
 		exit_with_error(sh, "pipe", 1);
+	}
 	fork_and_exec_child(sh, &data, start, end);
 	handle_parent_fds(sh, data.pipe_fd, data.has_pipe, prev_fd);
 	free_args(data.cmd);
