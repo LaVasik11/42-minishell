@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/18 14:06:42 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/22 11:52:40 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	free_args(char **args);
 char	*get_prompt(t_minishell *sh);
 char	*find_in_path(t_minishell *sh, char *cmd);
 char	*join_path(char *dir, char *cmd);
-void	exit_with_error(t_minishell *sh, char *msg, int status);
+void	exit_with_error(t_minishell *sh, char *msg, int status, int num);
 
 int		change_directory(t_minishell *sh);
 int		builtin_exit(t_minishell *sh);

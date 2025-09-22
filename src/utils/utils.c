@@ -6,19 +6,19 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:21 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/21 15:35:06 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/22 11:52:02 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_with_error(t_minishell *sh, char *msg, int status)
+void	exit_with_error(t_minishell *sh, char *msg, int status, int num)
 {
 	char	*full_msg;
 
 	if (ft_strcmp(msg, "Command not found") == 0 && sh->args[0])
 	{
-		full_msg = ft_strjoin(sh->args[0], ": command not found");
+		full_msg = ft_strjoin(sh->args[num], ": command not found");
 		ft_putendl_fd(full_msg, STDERR_FILENO);
 		free(full_msg);
 	}
