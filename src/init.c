@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:32 by gkankia           #+#    #+#             */
-/*   Updated: 2025/06/13 17:21:39 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/23 14:12:42 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_shell(t_minishell *sh)
 	sh->line = NULL;
 	sh->args = NULL;
 	sh->envp = NULL;
+	sh->data = NULL;
 	sh->in_fd = 0;
 	sh->out_fd = 1;
 	sh->is_running = 1;

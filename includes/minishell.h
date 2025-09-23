@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 13:56:18 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/23 14:13:32 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,6 @@
 # define RED  "\001\033[1;31m\002"
 # define CYAN   "\001\033[1;36m\002"
 
-typedef struct s_minishell
-{
-	char	*line;
-	char	**args;
-	char	**envp;
-	int		in_fd;
-	int		out_fd;
-	int		is_running;
-	int		exit_code;
-	pid_t	last_pid;
-}	t_minishell;
-
 typedef struct s_subprocess_data
 {
 	int		pipe_fd[2];
@@ -52,6 +40,19 @@ typedef struct s_subprocess_data
 	char	**cmd;
 	int		redir_error;
 }	t_subprocess_data;
+
+typedef struct s_minishell
+{
+	char				*line;
+	char				**args;
+	char				**envp;
+	int					in_fd;
+	int					out_fd;
+	int					is_running;
+	int					exit_code;
+	pid_t				last_pid;
+	t_subprocess_data	*data;
+}	t_minishell;
 
 typedef struct s_builtin_exec
 {

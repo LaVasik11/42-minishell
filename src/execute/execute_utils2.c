@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 14:04:05 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/23 14:16:53 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_subprocess_data *data, int start, int end)
 	return (pid);
 }
 
-static int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
+int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
 	int start, int end)
 {
 	data->cmd = build_argv(sh->args, start, end);
@@ -93,9 +93,11 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 
 	if (!prepare_subcmd(sh, &data, start, end))
 		return ;
+	sh->data = &data;
 	pid = fork_and_exec_child(sh, &data, start, end);
 	if (!data.has_pipe)
 		sh->last_pid = pid;
 	handle_parent_fds(sh, data.pipe_fd, data.has_pipe, prev_fd);
 	free_args(data.cmd);
+	sh->data = NULL;
 }

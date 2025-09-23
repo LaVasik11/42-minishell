@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 21:25:40 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/23 14:21:45 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	free_minishell(t_minishell *sh)
 	sh->args = NULL;
 	free_array(sh->envp);
 	sh->envp = NULL;
+	if (sh->data)
+	{
+		free_array(sh->data->cmd);
+		sh->data->cmd = NULL;
+	}
 	sh->in_fd = 0;
 	sh->out_fd = 1;
 }
