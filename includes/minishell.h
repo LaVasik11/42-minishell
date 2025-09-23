@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/22 11:52:40 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/23 13:56:18 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
 
 char	**build_argv(char **args, int start, int end);
 int		handle_redirections(t_minishell *sh, int start, int end);
-void	child_process(t_minishell *sh,\
-	t_subprocess_data *data, int start, int end);
+void	child_process(t_minishell *sh, t_subprocess_data *data, \
+	int start);
 void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd);
 
 char	**parse_input(t_minishell *sh);
@@ -107,7 +107,7 @@ void	free_args(char **args);
 char	*get_prompt(t_minishell *sh);
 char	*find_in_path(t_minishell *sh, char *cmd);
 char	*join_path(char *dir, char *cmd);
-void	exit_with_error(t_minishell *sh, char *msg, int status, int num);
+int		exit_with_error(t_minishell *sh, char *msg, int status, int num);
 
 int		change_directory(t_minishell *sh);
 int		builtin_exit(t_minishell *sh);
@@ -132,4 +132,6 @@ void	update_fds(t_minishell *sh, int *prev_fd);
 int		is_redirections(t_minishell *sh, int i);
 void	check_no_command_redirection(t_minishell *sh);
 void	free_array(char **arr);
+void	validate_exec_args(t_minishell *sh, char *path, int start, t_subprocess_data *data);
+
 #endif

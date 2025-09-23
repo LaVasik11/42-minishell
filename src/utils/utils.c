@@ -6,13 +6,13 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:21 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/22 11:52:02 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/23 13:39:46 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_with_error(t_minishell *sh, char *msg, int status, int num)
+int	exit_with_error(t_minishell *sh, char *msg, int status, int num)
 {
 	char	*full_msg;
 
@@ -34,6 +34,7 @@ void	exit_with_error(t_minishell *sh, char *msg, int status, int num)
 	if (status == -1)
 		exit(sh->exit_code);
 	exit(status);
+	return (1);
 }
 
 void	free_args(char **args)

@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:20 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/21 15:33:25 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/22 13:25:14 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ char	**add_env_entry(char **envp, char *new_entry)
 	}
 	new_env[i++] = new_entry;
 	new_env[i] = NULL;
-	free_args(envp);
+	free(envp);
 	return (new_env);
 }

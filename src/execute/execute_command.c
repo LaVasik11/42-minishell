@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/15 20:56:28 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/23 13:25:03 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,23 @@ void	wait_for_children(t_minishell *sh)
 {
 	int		status;
 	pid_t	wpid;
+	int		sig;
 
 	wpid = wait(&status);
 	while (wpid > 0)
 	{
-		if (wpid == sh->last_pid)
+		if (WIFSIGNALED(status))
 		{
-			if (WIFEXITED(status))
-				sh->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				sh->exit_code = 128 + WTERMSIG(status);
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT && wpid == sh->last_pid)
+				write(2, "Quit (core dumped)\n", 19);
+			else if (sig == SIGINT && wpid == sh->last_pid)
+				write(1, "\n", 1);
+			if (wpid == sh->last_pid)
+				sh->exit_code = 128 + sig;
 		}
+		else if (WIFEXITED(status) && wpid == sh->last_pid)
+			sh->exit_code = WEXITSTATUS(status);
 		wpid = wait(&status);
 	}
 }
