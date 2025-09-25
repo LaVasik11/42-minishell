@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:26:48 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/18 14:09:25 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/25 17:56:58 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,16 @@ void	handle_child_fds(t_minishell *sh, int pipe_fd[2], int has_pipe)
 		dup2(sh->in_fd, STDIN_FILENO);
 		close(sh->in_fd);
 	}
-	if (sh->out_fd != STDOUT_FILENO)
-	{
-		dup2(sh->out_fd, STDOUT_FILENO);
-		close(sh->out_fd);
-	}
 	if (has_pipe)
 	{
 		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
+		if (sh->out_fd == STDOUT_FILENO)
+			dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
+	}
+	else if (sh->out_fd != STDOUT_FILENO)
+	{
+		dup2(sh->out_fd, STDOUT_FILENO);
+		close(sh->out_fd);
 	}
 }
