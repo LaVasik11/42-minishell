@@ -45,6 +45,7 @@ void	init_shell(t_minishell *sh)
 	sh->args = NULL;
 	sh->envp = NULL;
 	sh->data = NULL;
+	sh->path = NULL;
 	sh->in_fd = 0;
 	sh->out_fd = 1;
 	sh->is_running = 1;

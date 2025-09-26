@@ -37,6 +37,8 @@ void	free_minishell(t_minishell *sh)
 {
 	if (!sh)
 		return ;
+	free(sh->path);
+	sh->path = NULL;
 	free(sh->line);
 	sh->line = NULL;
 	free_array(sh->args);
