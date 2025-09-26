@@ -80,7 +80,10 @@ int start, t_subprocess_data *data)
 	if (!path || *path == '\0')
 		exit_with_error(sh, "Command not found", 127, start);
 	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		free(path);
 		exit_with_error(sh, "Is a directory", 126, 0);
+	}
 	if (access(path, F_OK) != 0)
 		exit_with_error(sh, "No such file or directory", 127, 0);
 	if (access(path, X_OK) != 0)
