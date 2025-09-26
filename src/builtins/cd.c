@@ -88,7 +88,8 @@ int	change_directory(t_minishell *sh)
 	if (!do_chdir(sh, target, cwd_before))
 		return (0);
 	free(oldpwd);
-	oldpwd = cwd_before;
+	oldpwd = ft_strdup(cwd_before);
+	free(cwd_before);
 	free(target);
 	sh->exit_code = 0;
 	return (1);
