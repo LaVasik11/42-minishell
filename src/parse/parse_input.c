@@ -69,11 +69,13 @@ int	append_arg(char **args, int *k, t_minishell *sh, int *i)
 		arg = collect_argument(sh, i);
 	if (!arg)
 		return (0);
-	if (arg != NULL && arg[0] != '\0')
+	if (arg[0] == '\0')
 	{
-		args[*k] = arg;
-		(*k)++;
+		free(arg);
+		return (1);
 	}
+	args[*k] = arg;
+	(*k)++;
 	return (1);
 }
 
