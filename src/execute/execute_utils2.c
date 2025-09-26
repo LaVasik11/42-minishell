@@ -99,6 +99,7 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 			printf("two operators beside each other\n");
 		sh->exit_code = 2;
 		sh->is_two_operator = 1;
+		free_args(data.cmd);
 		return ;
 	}
 	sh->data = &data;
