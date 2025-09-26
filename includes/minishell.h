@@ -47,6 +47,7 @@ typedef struct s_minishell
 	char				**args;
 	char				**envp;
 	char				*path;
+	char				*oldpwd;
 	int					in_fd;
 	int					out_fd;
 	int					is_running;

@@ -14,8 +14,8 @@
 
 void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
 {
-	if (oldpwd)
-		set_env_value(&sh->envp, "OLDPWD", oldpwd);
+	if (sh->oldpwd)
+		set_env_value(&sh->envp, "sh->OLDPWD", oldpwd);
 	if (newpwd)
 		set_env_value(&sh->envp, "PWD", newpwd);
 }
@@ -68,11 +68,10 @@ int	do_chdir(t_minishell *sh, char *target, char *cwd_before)
 
 int	change_directory(t_minishell *sh)
 {
-	static char	*oldpwd = NULL;
 	char		*target;
 	char		*cwd_before;
 
-	target = get_cd_target(sh, oldpwd);
+	target = get_cd_target(sh, sh->oldpwd);
 	if (!target)
 	{
 		if (sh->args[2])
@@ -87,8 +86,8 @@ int	change_directory(t_minishell *sh)
 		cwd_before = getcwd(NULL, 0);
 	if (!do_chdir(sh, target, cwd_before))
 		return (0);
-	free(oldpwd);
-	oldpwd = ft_strdup(cwd_before);
+	free(sh->oldpwd);
+	sh->oldpwd = ft_strdup(cwd_before);
 	free(cwd_before);
 	free(target);
 	sh->exit_code = 0;
