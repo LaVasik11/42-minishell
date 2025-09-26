@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/25 17:29:47 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:33:26 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,14 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 
 	if (!prepare_subcmd(sh, &data, start, end))
 		return ;
+	if (!check_double_op(sh->args))
+	{
+		if (!sh->is_two_operator)
+			printf("two operators beside each other\n");
+		sh->exit_code = 2;
+		sh->is_two_operator = 1;
+		return ;
+	}
 	sh->data = &data;
 	pid = fork_and_exec_child(sh, &data, start, end);
 	if (!data.has_pipe)

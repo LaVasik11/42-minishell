@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 14:21:45 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:32:05 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	free_array(char **arr)
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
+}
+
+void	free_temp_data(t_minishell *sh)
+{
+	free_args(sh->args);
+	sh->args = NULL;
+	free(sh->line);
+	sh->line = NULL;
+	sh->is_two_operator = 0;
 }
 
 void	free_minishell(t_minishell *sh)

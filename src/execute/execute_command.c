@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 13:25:03 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:32:39 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	handle_redirections(t_minishell *sh, int start, int end)
 	i = start;
 	while (i < end)
 	{
-		fflush(NULL);
 		if ((is_redirections(sh, i) && i + 1 < end && \
 is_redirections(sh, i + 1)))
 		{

@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 14:13:32 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:28:43 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_minishell
 	int					out_fd;
 	int					is_running;
 	int					exit_code;
+	int					is_two_operator;
 	pid_t				last_pid;
 	t_subprocess_data	*data;
 }	t_minishell;
@@ -93,7 +94,6 @@ char	*copy_double_quoted_part(t_minishell *sh, int *i,\
 char	*parse_dollar(t_minishell *sh, int *i);
 char	*copy_single_quoted(char *line, int *i, int end);
 char	*copy_segment(char *line, int start, int end);
-char	*copy_unquoted_segment(char *line, int *i);
 int		skip_spaces(char *line, int i);
 int		find_closing_quote(char *line, int i, char quote);
 int		is_quote(char c);
@@ -103,7 +103,6 @@ char	*str_join_free(char *s1, char *s2);
 char	*get_env_value(char **envp, char *name);
 int		check_infiles(char **args, t_minishell *sh);
 
-void	free_all(char **args, int count);
 void	free_args(char **args);
 char	*get_prompt(t_minishell *sh);
 char	*find_in_path(t_minishell *sh, char *cmd);
@@ -134,5 +133,7 @@ int		is_redirections(t_minishell *sh, int i);
 void	check_no_command_redirection(t_minishell *sh);
 void	free_array(char **arr);
 void	validate_exec_args(t_minishell *sh, char *path, int start, t_subprocess_data *data);
+void	free_temp_data(t_minishell *sh);
+short	check_double_op(char **args);
 
 #endif

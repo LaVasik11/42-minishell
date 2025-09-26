@@ -6,11 +6,43 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/22 12:14:14 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:32:11 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+short	is_redirection_operator(char *s)
+{
+	if (ft_strcmp(s, ">") == 0 || ft_strcmp(s, "<") == 0)
+		return (1);
+	if (ft_strcmp(s, ">>") == 0 || ft_strcmp(s, "<<") == 0)
+		return (1);
+	return (0);
+}
+
+short	are_double_op(char *s1, char *s2)
+{
+	if (is_redirection_operator(s1) && is_redirection_operator(s2))
+		return (1);
+	if (ft_strcmp(s1, "|") == 0 && ft_strcmp(s2, "|") == 0)
+		return (1);
+	return (0);
+}
+
+short	check_double_op(char **args)
+{
+	short	i;
+
+	i = 0;
+	while (args[i] && args[i + 1])
+	{
+		if (are_double_op(args[i], args[i + 1]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	process_command(t_minishell *sh)
 {
@@ -23,7 +55,7 @@ void	process_command(t_minishell *sh)
 	prompt = NULL;
 	if (sh->line == NULL)
 	{
-		printf("\nexit\n");
+		printf("exit\n");
 		sh->is_running = 0;
 		return ;
 	}
@@ -31,10 +63,7 @@ void	process_command(t_minishell *sh)
 	sh->args = parse_input(sh);
 	if (sh->args && sh->args[0] != NULL)
 		execute_command(sh);
-	free_args(sh->args);
-	sh->args = NULL;
-	free(sh->line);
-	sh->line = NULL;
+	free_temp_data(sh);
 }
 
 int	main(int argc, char **argv, char **envp)

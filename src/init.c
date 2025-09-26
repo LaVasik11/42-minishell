@@ -6,7 +6,7 @@
 /*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:32 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 14:12:42 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/26 12:29:01 by georgy-kank      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ void	init_shell(t_minishell *sh)
 	sh->out_fd = 1;
 	sh->is_running = 1;
 	sh->exit_code = 0;
+	sh->is_two_operator = 0;
 }
