@@ -79,13 +79,27 @@ int	append_arg(char **args, int *k, t_minishell *sh, int *i)
 	return (1);
 }
 
+int	check_redirection(t_minishell *sh, char **args, int k)
+{
+	if (k == 0)
+		return (0);
+	if (is_redirection_operator(args[k - 1]))
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		sh->exit_code = 2;
+		free_all(args, k);
+		return (1);
+	}
+	return (0);
+}
+
 char	**parse_input(t_minishell *sh)
 {
 	char	**args;
 	int		i;
 	int		k;
 
-	args = malloc(sizeof(char *) * 1024);
+	args = ft_calloc(sizeof(char *), 1024);
 	if (!args)
 		return (NULL);
 	i = 0;
@@ -101,6 +115,8 @@ char	**parse_input(t_minishell *sh)
 			return (NULL);
 		}
 	}
+	// if (check_redirection(sh, args, k))
+	// 	return (NULL);
 	args[k] = NULL;
 	return (args);
 }

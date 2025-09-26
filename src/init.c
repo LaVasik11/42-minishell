@@ -52,4 +52,5 @@ void	init_shell(t_minishell *sh)
 	sh->is_running = 1;
 	sh->exit_code = 0;
 	sh->is_two_operator = 0;
+	sh->last_pid = -1;
 }

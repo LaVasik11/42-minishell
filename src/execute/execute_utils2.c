@@ -55,6 +55,7 @@ t_subprocess_data *data, int start, int end)
 	{
 		data->redir_error = handle_redirections(sh, start, end);
 		child_process(sh, data, start);
+		free_minishell(sh);
 	}
 	return (pid);
 }
