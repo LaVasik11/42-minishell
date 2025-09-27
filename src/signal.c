@@ -23,6 +23,16 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
+void	heredoc_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
+		exit(130);
+	}
+}
+
 void	check_signal(t_minishell *sh)
 {
 	if (g_received_signal == SIGINT)

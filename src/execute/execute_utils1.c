@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-void	run_here_doc(int *fds, char *delimiter)
+int	here_doc(char *delimiter)
 {
+	int		fds[2];
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
-	close(fds[0]);
+	signal(SIGINT, heredoc_sigint);
+	if (pipe(fds) == -1)
+		return (-1);
 	while (1)
 	{
 		line = readline("> ");
@@ -31,29 +33,6 @@ void	run_here_doc(int *fds, char *delimiter)
 		free(line);
 	}
 	close(fds[1]);
-	exit(0);
-}
-
-int	here_doc(char *delimiter)
-{
-	int		fds[2];
-	pid_t	pid;
-	int		status;
-
-	if (pipe(fds) == -1)
-		return (-1);
-	pid = fork();
-	if (pid == -1)
-		return (-1);
-	if (pid == 0)
-		run_here_doc(fds, delimiter);
-	close(fds[1]);
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		close(fds[0]);
-		return (-1);
-	}
 	return (fds[0]);
 }
 

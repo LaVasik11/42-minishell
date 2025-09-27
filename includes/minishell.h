@@ -138,5 +138,6 @@ void	validate_exec_args(t_minishell *sh, char *path, int start, t_subprocess_dat
 void	free_temp_data(t_minishell *sh);
 short	check_double_op(char **args);
 short	is_redirection_operator(char *s);
+void	heredoc_sigint(int sig);
 
 #endif
