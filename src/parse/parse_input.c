@@ -115,8 +115,8 @@ char	**parse_input(t_minishell *sh)
 			return (NULL);
 		}
 	}
-	// if (check_redirection(sh, args, k))
-	// 	return (NULL);
+	if (check_redirection(sh, args, k))
+		return (NULL);
 	args[k] = NULL;
 	return (args);
 }
