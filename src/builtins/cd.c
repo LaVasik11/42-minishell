@@ -15,7 +15,7 @@
 void	update_env_pwd(t_minishell *sh, char *oldpwd, char *newpwd)
 {
 	if (sh->oldpwd)
-		set_env_value(&sh->envp, "sh->OLDPWD", oldpwd);
+		set_env_value(&sh->envp, "OLDPWD", oldpwd);
 	if (newpwd)
 		set_env_value(&sh->envp, "PWD", newpwd);
 }
