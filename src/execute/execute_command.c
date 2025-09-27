@@ -55,7 +55,7 @@ int	handle_single_redir(t_minishell *sh, char *redir, char *file)
 	}
 	if (process_redirection(sh, redir, file))
 	{
-		perror(file);
+		perror(" ");
 		return (1);
 	}
 	return (0);
