@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:58:52 by tmkrtumy          #+#    #+#             */
-/*   Updated: 2025/09/29 16:18:48 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/29 17:26:03 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ sh->args[i]);
 
 int	print_error_readir(t_minishell *sh)
 {
-	printf("bash: syntax error near unexpected token `newline'\n");
+	printf("minishell: syntax error near unexpected token `newline'\n");
 	sh->exit_code = 2;
 	return (0);
 }
@@ -44,7 +44,7 @@ char	valid_operators(t_minishell *sh)
 		if (is_redirection(sh->args[i]) && \
 (is_redirection(sh->args[i + 1]) || is_pipe(sh->args[i + 1])))
 		{
-			printf("bash: syntax error near unexpected token `%s'\n", \
+			printf("minishell: syntax error near unexpected token `%s'\n", \
 sh->args[i + 1]);
 			sh->exit_code = 2;
 			return (0);
