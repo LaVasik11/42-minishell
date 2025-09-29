@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:04 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/19 15:07:10 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/29 15:39:36 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	check_redirection(t_minishell *sh, char **args, int k)
 {
 	if (k == 0)
 		return (0);
-	if (is_redirection_operator(args[k - 1]))
+	if (is_redirection(args[k - 1]))
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");
 		sh->exit_code = 2;

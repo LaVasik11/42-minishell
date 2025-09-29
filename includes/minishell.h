@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/26 12:28:43 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/29 15:52:21 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,8 @@ void	free_array(char **arr);
 void	validate_exec_args(t_minishell *sh, char *path, int start, t_subprocess_data *data);
 void	free_temp_data(t_minishell *sh);
 short	check_double_op(char **args);
-short	is_redirection_operator(char *s);
+short	is_redirection(char *s);
 void	heredoc_sigint(int sig);
+char	valid_operators(t_minishell *sh);
 
 #endif

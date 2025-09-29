@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/26 12:32:11 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/29 15:54:56 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-short	is_redirection_operator(char *s)
+short	is_redirection(char *s)
 {
 	if (ft_strcmp(s, ">") == 0 || ft_strcmp(s, "<") == 0)
 		return (1);
@@ -23,7 +23,7 @@ short	is_redirection_operator(char *s)
 
 short	are_double_op(char *s1, char *s2)
 {
-	if (is_redirection_operator(s1) && is_redirection_operator(s2))
+	if (is_redirection(s1) && is_redirection(s2))
 		return (1);
 	if (ft_strcmp(s1, "|") == 0 && ft_strcmp(s2, "|") == 0)
 		return (1);
@@ -61,7 +61,7 @@ void	process_command(t_minishell *sh)
 	}
 	add_history(sh->line);
 	sh->args = parse_input(sh);
-	if (sh->args && sh->args[0] != NULL)
+	if (sh->args && sh->args[0] != NULL && valid_operators(sh))
 		execute_command(sh);
 	free_temp_data(sh);
 }
