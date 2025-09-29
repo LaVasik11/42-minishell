@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:56:22 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/29 15:52:21 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/29 16:36:15 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	handle_parent_fds(t_minishell *sh, int pipe_fd[2],\
 
 char	**build_argv(char **args, int start, int end);
 int		handle_redirections(t_minishell *sh, int start, int end);
-void	child_process(t_minishell *sh, t_subprocess_data *data, \
+void	child_process(t_minishell *sh, t_subprocess_data *data,\
 	int start);
 void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd);
 
@@ -132,9 +132,10 @@ int		print_working_directory(t_minishell *sh);
 int		builtin_echo(t_minishell *sh);
 void	update_fds(t_minishell *sh, int *prev_fd);
 int		is_redirections(t_minishell *sh, int i);
-void	check_no_command_redirection(t_minishell *sh);
+void	check_no_command_redirection(t_minishell *sh, int i);
 void	free_array(char **arr);
-void	validate_exec_args(t_minishell *sh, char *path, int start, t_subprocess_data *data);
+void	validate_exec_args(t_minishell *sh, char *path, int start,\
+	t_subprocess_data *data);
 void	free_temp_data(t_minishell *sh);
 short	check_double_op(char **args);
 short	is_redirection(char *s);

@@ -3,42 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 20:28:23 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/23 14:03:52 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/29 16:32:35 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_no_command_redirection(t_minishell *sh)
+void	check_no_command_redirection(t_minishell *sh, int i)
 {
-	if (!sh->args[1])
-	{
-		sh->exit_code = 2;
-		printf("minishell: syntax error near unexpected token `newline'\n");
-	}
-	else if (is_redirections(sh, 0) && is_redirections(sh, 1))
-	{
-		sh->exit_code = 2;
-		printf("minishell: syntax error near unexpected token `%s'\n", \
-sh->args[1]);
-	}
-	else if (ft_strcmp(sh->args[0], "<") == 0)
+	pid_t	pid;
+
+	if (ft_strcmp(sh->args[i], "<") == 0)
 	{
 		sh->exit_code = 0;
-		if (access(sh->args[1], F_OK) != 0)
+		if (access(sh->args[i + 1], F_OK) != 0)
 			sh->exit_code = 1;
 	}
-	else if (ft_strcmp(sh->args[0], ">") == 0 || \
-ft_strcmp(sh->args[0], ">>") == 0)
+	else if (ft_strcmp(sh->args[i], ">") == 0 || \
+ft_strcmp(sh->args[i], ">>") == 0)
 	{
-		open(sh->args[1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		open(sh->args[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		sh->exit_code = 0;
 	}
-	else if (ft_strcmp(sh->args[0], "<<") == 0)
-		here_doc(sh->args[1]);
+	else if (ft_strcmp(sh->args[i], "<<") == 0)
+	{
+		pid = fork();
+		if (pid == -1)
+			exit_with_error(sh, "fork", 1, 0);
+		if (pid == 0)
+		{
+			here_doc(sh->args[i + 1]);
+		}
+	}
 }
 
 char	**build_argv(char **args, int start, int end)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/26 12:33:26 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/09/29 16:22:53 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
 	if (!data->cmd || !data->cmd[0])
 	{
 		free_args(data->cmd);
-		check_no_command_redirection(sh);
 		return (0);
 	}
 	data->has_pipe = (sh->args[end] && ft_strcmp(sh->args[end], "|") == 0);
