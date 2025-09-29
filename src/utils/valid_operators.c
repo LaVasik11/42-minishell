@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:58:52 by tmkrtumy          #+#    #+#             */
-/*   Updated: 2025/09/29 17:26:03 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/09/29 19:29:01 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,26 @@ sh->args[i + 1]);
 	if (is_redirection(sh->args[i]) || is_pipe(sh->args[i]))
 		print_error_readir(sh);
 	return (1);
+}
+
+int		check_pipes(char **args)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (args && args[i])
+	{
+		if (!ft_strcmp(args[i], "|") || \
+!ft_strcmp(args[i], ">") ||\
+!ft_strcmp(args[i], "<") ||\
+!ft_strcmp(args[i], ">>") ||\
+!ft_strcmp(args[i], "<<"))
+		count++;
+	i++;
+	}
+	if (count >= 512)
+		return(1);
+	return (0);
 }
