@@ -110,7 +110,7 @@ char	**parse_input(t_minishell *sh)
 		if (!append_arg(args, &k, sh, &i) || k >= 1023)
 		{
 			if (k >= 1023)
-				printf("minishell: too many arguments");
+				printf("minishell: too many arguments\n");
 			free_all(args, k);
 			return (NULL);
 		}

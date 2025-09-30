@@ -72,19 +72,24 @@ void	handle_child_fds(t_minishell *sh, int pipe_fd[2], int has_pipe)
 {
 	if (sh->in_fd != STDIN_FILENO)
 	{
-		dup2(sh->in_fd, STDIN_FILENO);
+		if (dup2(sh->in_fd, STDIN_FILENO) == -1)
+			perror("dup2");
 		close(sh->in_fd);
 	}
 	if (has_pipe)
 	{
 		close(pipe_fd[0]);
 		if (sh->out_fd == STDOUT_FILENO)
-			dup2(pipe_fd[1], STDOUT_FILENO);
+		{
+			if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+				perror("dup2");
+		}
 		close(pipe_fd[1]);
 	}
 	else if (sh->out_fd != STDOUT_FILENO)
 	{
-		dup2(sh->out_fd, STDOUT_FILENO);
+		if (dup2(sh->out_fd, STDOUT_FILENO) == -1)
+			perror("dup2");
 		close(sh->out_fd);
 	}
 }
