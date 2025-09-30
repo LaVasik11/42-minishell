@@ -25,7 +25,7 @@ void	child_process_builton(t_minishell *sh, t_subprocess_data *data)
 void	child_process(t_minishell *sh, t_subprocess_data *data, \
 int start)
 {
-	signal(SIGPIPE, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	handle_child_fds(sh, data->pipe_fd, data->has_pipe);

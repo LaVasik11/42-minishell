@@ -55,25 +55,3 @@ sh->args[i + 1]);
 		print_error_readir(sh);
 	return (1);
 }
-
-int	check_pipes(char **args)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (args && args[i])
-	{
-		if (!ft_strcmp(args[i], "|") || \
-!ft_strcmp(args[i], ">") || \
-!ft_strcmp(args[i], "<") || \
-!ft_strcmp(args[i], ">>") || \
-!ft_strcmp(args[i], "<<"))
-			count++;
-		i++;
-	}
-	if (count >= 512)
-		return (1);
-	return (0);
-}

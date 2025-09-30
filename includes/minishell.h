@@ -140,5 +140,5 @@ short	check_double_op(char **args);
 short	is_redirection(char *s);
 void	heredoc_sigint(int sig);
 char	valid_operators(t_minishell *sh);
-int		check_pipes(char **args);
+
 #endif
