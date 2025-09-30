@@ -100,8 +100,6 @@ char	**parse_input(t_minishell *sh)
 	int		k;
 
 	args = ft_calloc(sizeof(char *), 1024);
-	if (!args)
-		return (NULL);
 	i = 0;
 	k = 0;
 	while (sh->line[i])
@@ -109,8 +107,10 @@ char	**parse_input(t_minishell *sh)
 		i = skip_spaces(sh->line, i);
 		if (!sh->line[i])
 			break ;
-		if (!append_arg(args, &k, sh, &i))
+		if (!append_arg(args, &k, sh, &i) || k >= 1023)
 		{
+			if (k >= 1023)
+				printf("minishell: too many arguments");
 			free_all(args, k);
 			return (NULL);
 		}

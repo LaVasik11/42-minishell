@@ -61,9 +61,7 @@ void	process_command(t_minishell *sh)
 	}
 	add_history(sh->line);
 	sh->args = parse_input(sh);
-	if (check_pipes(sh->args))
-		printf("\n|{error}|\n");
-	else if (sh->args && sh->args[0] != NULL && valid_operators(sh))
+	if (sh->args && sh->args[0] != NULL && valid_operators(sh))
 		execute_command(sh);
 	free_temp_data(sh);
 }
