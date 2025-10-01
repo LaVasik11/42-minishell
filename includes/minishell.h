@@ -140,5 +140,9 @@ short	check_double_op(char **args);
 short	is_redirection(char *s);
 void	heredoc_sigint(int sig);
 char	valid_operators(t_minishell *sh);
-
+int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
+	int start, int end);
+pid_t	fork_and_exec_child(t_minishell *sh, \
+		t_subprocess_data *data, int start);
+int	process_redirection(t_minishell *sh, char *redir, char *file);
 #endif

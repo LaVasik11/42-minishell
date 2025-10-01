@@ -45,7 +45,7 @@ int start)
 }
 
 pid_t	fork_and_exec_child(t_minishell *sh, \
-t_subprocess_data *data, int start, int end)
+	t_subprocess_data *data, int start)
 {
 	pid_t	pid;
 
@@ -54,14 +54,15 @@ t_subprocess_data *data, int start, int end)
 		exit_with_error(sh, "fork", 1, 0);
 	if (pid == 0)
 	{
-		data->redir_error = handle_redirections(sh, start, end);
+		if (data->redir_error)
+			exit(1);
 		child_process(sh, data, start);
 		free_minishell(sh);
 	}
 	return (pid);
 }
 
-int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
+int	init_subcmd(t_minishell *sh, t_subprocess_data *data,
 	int start, int end)
 {
 	data->cmd = build_argv(sh->args, start, end);
@@ -85,27 +86,23 @@ int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
 	return (1);
 }
 
-void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
+int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
+	int start, int end)
 {
-	t_subprocess_data	data;
-	pid_t				pid;
-
-	if (!prepare_subcmd(sh, &data, start, end))
-		return ;
-	if (!check_double_op(sh->args))
+	if (!init_subcmd(sh, data, start, end))
+		return (0);
+	if (handle_redirections(sh, start, end))
 	{
-		if (!sh->is_two_operator)
-			printf("two operators beside each other\n");
-		sh->exit_code = 2;
-		sh->is_two_operator = 1;
-		free_args(data.cmd);
-		return ;
+		data->redir_error = 1;
+		free_args(data->cmd);
+		if (data->has_pipe)
+		{
+			close(data->pipe_fd[0]);
+			close(data->pipe_fd[1]);
+		}
+		return (0);
 	}
-	sh->data = &data;
-	pid = fork_and_exec_child(sh, &data, start, end);
-	if (!data.has_pipe)
-		sh->last_pid = pid;
-	handle_parent_fds(sh, data.pipe_fd, data.has_pipe, prev_fd);
-	free_args(data.cmd);
-	sh->data = NULL;
+	data->redir_error = 0;
+	return (1);
 }
+

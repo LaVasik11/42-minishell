@@ -12,52 +12,28 @@
 
 #include "minishell.h"
 
-int	process_redirection(t_minishell *sh, char *redir, char *file)
-{
-	if (ft_strcmp(redir, "<") == 0)
-	{
-		sh->in_fd = open(file, O_RDONLY);
-		if (sh->in_fd < 0)
-			return (1);
-	}
-	else if (ft_strcmp(redir, ">") == 0)
-	{
-		sh->out_fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		if (sh->out_fd < 0)
-			return (1);
-	}
-	else if (ft_strcmp(redir, ">>") == 0)
-	{
-		sh->out_fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		if (sh->out_fd < 0)
-			return (1);
-	}
-	else if (ft_strcmp(redir, "<<") == 0)
-	{
-		sh->in_fd = here_doc(file);
-		if (sh->in_fd < 0)
-			return (1);
-	}
-	return (0);
-}
-
 int	handle_single_redir(t_minishell *sh, char *redir, char *file)
 {
 	if (ft_strcmp(redir, "<") == 0 || ft_strcmp(redir, "<<") == 0)
 	{
-		if (sh->in_fd != STDIN_FILENO)
+		if (sh->in_fd != STDIN_FILENO && sh->in_fd != -1)
+		{
 			close(sh->in_fd);
+			sh->in_fd = STDIN_FILENO;
+		}
 	}
 	else
 	{
-		if (sh->out_fd != STDOUT_FILENO)
+		if (sh->out_fd != STDOUT_FILENO && sh->out_fd != -1)
+		{
 			close(sh->out_fd);
+			sh->out_fd = STDOUT_FILENO;
+		}
 	}
 	if (process_redirection(sh, redir, file))
 	{
 		perror(file);
-		free_minishell(sh);
-		exit (1);
+		return (1);
 	}
 	return (0);
 }
@@ -113,6 +89,31 @@ void	wait_for_children(t_minishell *sh)
 			sh->exit_code = WEXITSTATUS(status);
 		wpid = wait(&status);
 	}
+}
+
+void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
+{
+	t_subprocess_data	data;
+	pid_t				pid;
+
+	if (!prepare_subcmd(sh, &data, start, end))
+		return ;
+	if (!check_double_op(sh->args))
+	{
+		if (!sh->is_two_operator)
+			printf("two operators beside each other\n");
+		sh->exit_code = 2;
+		sh->is_two_operator = 1;
+		free_args(data.cmd);
+		return ;
+	}
+	sh->data = &data;
+	pid = fork_and_exec_child(sh, &data, start);
+	if (!data.has_pipe)
+		sh->last_pid = pid;
+	handle_parent_fds(sh, data.pipe_fd, data.has_pipe, prev_fd);
+	free_args(data.cmd);
+	sh->data = NULL;
 }
 
 void	execute_command(t_minishell *sh)

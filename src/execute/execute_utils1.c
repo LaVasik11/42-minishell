@@ -12,27 +12,52 @@
 
 #include "minishell.h"
 
-int	here_doc(char *delimiter)
+void	run_heredoc_child(int write_fd, char *delimiter)
 {
-	int		fds[2];
 	char	*line;
 
 	signal(SIGINT, heredoc_sigint);
-	if (pipe(fds) == -1)
-		return (-1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line)
+			break ;
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(fds[1], line, ft_strlen(line));
-		write(fds[1], "\n", 1);
+		write(write_fd, line, ft_strlen(line));
+		write(write_fd, "\n", 1);
 		free(line);
 	}
+	close(write_fd);
+	exit(0);
+}
+
+int	here_doc(char *delimiter)
+{
+	int		fds[2];
+	pid_t	pid;
+	int		status;
+
+	if (pipe(fds) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+	{
+		close(fds[0]);
+		run_heredoc_child(fds[1], delimiter);
+	}
 	close(fds[1]);
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		close(fds[0]);
+		return (-1);
+	}
 	return (fds[0]);
 }
 

@@ -14,8 +14,6 @@
 
 void	check_no_command_redirection(t_minishell *sh, int i)
 {
-	pid_t	pid;
-
 	if (ft_strcmp(sh->args[i], "<") == 0)
 	{
 		sh->exit_code = 0;
@@ -30,13 +28,7 @@ ft_strcmp(sh->args[i], ">>") == 0)
 	}
 	else if (ft_strcmp(sh->args[i], "<<") == 0)
 	{
-		pid = fork();
-		if (pid == -1)
-			exit_with_error(sh, "fork", 1, 0);
-		if (pid == 0)
-		{
-			here_doc(sh->args[i + 1]);
-		}
+		here_doc(sh->args[i + 1]);
 	}
 }
 

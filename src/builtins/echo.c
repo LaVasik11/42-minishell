@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	is_flag_n(char *arg)
+int	is_flag_n(char *arg)
 {
 	int	i;
 
