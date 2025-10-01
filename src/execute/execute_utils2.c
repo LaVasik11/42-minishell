@@ -16,8 +16,9 @@ void	child_process_builton(t_minishell *sh, t_subprocess_data *data)
 {
 	free_args(sh->args);
 	sh->args = data->cmd;
-	if (execute_builtin(sh))
+	if (!execute_builtin(sh))
 		exit(sh->exit_code);
+	sh->args = NULL;
 	free_minishell(sh);
 	exit(0);
 }
