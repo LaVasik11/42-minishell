@@ -39,7 +39,6 @@ int start)
 	if (!sh->path)
 		exit_with_error(sh, "No such file or directory", 127, 0);
 	free_args(sh->args);
-
 	execve(sh->path, data->cmd, sh->envp);
 	free(sh->path);
 	exit_with_error(sh, "execve", 1, 0);
@@ -106,4 +105,3 @@ int	prepare_subcmd(t_minishell *sh, t_subprocess_data *data,
 	data->redir_error = 0;
 	return (1);
 }
-

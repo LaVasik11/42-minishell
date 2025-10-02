@@ -28,7 +28,7 @@ ft_strcmp(sh->args[i], ">>") == 0)
 	}
 	else if (ft_strcmp(sh->args[i], "<<") == 0)
 	{
-		here_doc(sh->args[i + 1]);
+		here_doc(sh->args[i + 1], sh);
 	}
 }
 
