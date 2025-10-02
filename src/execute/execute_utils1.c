@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	run_heredoc_child(int write_fd, char *delimiter)
+void	run_heredoc_child(int write_fd, char *delimiter, t_minishell *sh)
 {
 	char	*line;
 
@@ -31,11 +31,12 @@ void	run_heredoc_child(int write_fd, char *delimiter)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
+	free_minishell(sh);
 	close(write_fd);
 	exit(0);
 }
 
-int	here_doc(char *delimiter)
+int	here_doc(char *delimiter, t_minishell *sh)
 {
 	int		fds[2];
 	pid_t	pid;
@@ -49,7 +50,7 @@ int	here_doc(char *delimiter)
 	if (pid == 0)
 	{
 		close(fds[0]);
-		run_heredoc_child(fds[1], delimiter);
+		run_heredoc_child(fds[1], delimiter, sh);
 	}
 	close(fds[1]);
 	waitpid(pid, &status, 0);

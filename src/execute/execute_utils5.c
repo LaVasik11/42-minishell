@@ -37,7 +37,7 @@ int	handle_heredoc(t_minishell *sh, char *delimiter)
 {
 	int	fd;
 
-	fd = here_doc(delimiter);
+	fd = here_doc(delimiter, sh);
 	if (fd < 0)
 		return (1);
 	sh->in_fd = fd;

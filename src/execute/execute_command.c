@@ -12,30 +12,33 @@
 
 #include "minishell.h"
 
-int	handle_single_redir(t_minishell *sh, char *redir, char *file)
+int handle_single_redir(t_minishell *sh, char *redir, char *file)
 {
-	if (ft_strcmp(redir, "<") == 0 || ft_strcmp(redir, "<<") == 0)
-	{
-		if (sh->in_fd != STDIN_FILENO && sh->in_fd != -1)
-		{
-			close(sh->in_fd);
-			sh->in_fd = STDIN_FILENO;
-		}
-	}
-	else
-	{
-		if (sh->out_fd != STDOUT_FILENO && sh->out_fd != -1)
-		{
-			close(sh->out_fd);
-			sh->out_fd = STDOUT_FILENO;
-		}
-	}
-	if (process_redirection(sh, redir, file))
-	{
-		perror(file);
-		return (1);
-	}
-	return (0);
+    int ret;
+
+    if (ft_strcmp(redir, "<") == 0 || ft_strcmp(redir, "<<") == 0)
+    {
+        if (sh->in_fd != STDIN_FILENO && sh->in_fd != -1)
+        {
+            close(sh->in_fd);
+            sh->in_fd = STDIN_FILENO;
+        }
+    }
+    else
+    {
+        if (sh->out_fd != STDOUT_FILENO && sh->out_fd != -1)
+        {
+            close(sh->out_fd);
+            sh->out_fd = STDOUT_FILENO;
+        }
+    }
+    ret = process_redirection(sh, redir, file);
+    if (ret)
+    {
+        perror(file);
+        return (1);
+    }
+    return (0);
 }
 
 int	handle_redirections(t_minishell *sh, int start, int end)

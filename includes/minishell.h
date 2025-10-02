@@ -72,7 +72,7 @@ void	setup_signals(void);
 void	check_signal(t_minishell *sh);
 void	execute_command(t_minishell *sh);
 void	free_minishell(t_minishell *sh);
-int		here_doc(char *delimiter);
+int	here_doc(char *delimiter, t_minishell *sh);
 int		has_pipe(char **args);
 int		execute_builtin(t_minishell *sh);
 void	handle_child_fds(t_minishell *sh, int pipe_fd[2], int has_pipe);
