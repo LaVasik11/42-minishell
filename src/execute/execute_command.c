@@ -99,6 +99,7 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 	t_subprocess_data	data;
 	pid_t				pid;
 
+	sh->data = &data;
 	if (!prepare_subcmd(sh, &data, start, end))
 		return ;
 	if (!check_double_op(sh->args))
@@ -110,7 +111,6 @@ void	exec_subcmd(t_minishell *sh, int start, int end, int *prev_fd)
 		free_args(data.cmd);
 		return ;
 	}
-	sh->data = &data;
 	pid = fork_and_exec_child(sh, &data, start);
 	if (!data.has_pipe)
 		sh->last_pid = pid;
