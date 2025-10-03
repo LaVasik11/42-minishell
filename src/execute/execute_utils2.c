@@ -26,6 +26,8 @@ void	child_process_builton(t_minishell *sh, t_subprocess_data *data)
 void	child_process(t_minishell *sh, t_subprocess_data *data, \
 int start)
 {
+	int	fd;
+
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
@@ -39,6 +41,12 @@ int start)
 	if (!sh->path)
 		exit_with_error(sh, "No such file or directory", 127, 0);
 	free_args(sh->args);
+	fd = open("/dev/null", O_WRONLY);
+	if (fd >= 0)
+	{
+		dup2(fd, STDERR_FILENO);
+		close(fd);
+	}
 	execve(sh->path, data->cmd, sh->envp);
 	free(sh->path);
 	exit_with_error(sh, "execve", 1, 0);
