@@ -43,9 +43,11 @@ void	free_minishell(t_minishell *sh)
 	sh->path = NULL;
 	free(sh->line);
 	sh->line = NULL;
-	free_array(sh->args);
+	if (sh->args)
+		free_array(sh->args);
 	sh->args = NULL;
-	free_array(sh->envp);
+	if (sh->envp)
+		free_array(sh->envp);
 	sh->envp = NULL;
 	if (sh->data)
 	{

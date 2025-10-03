@@ -52,6 +52,6 @@ sh->args[i + 1]);
 		i++;
 	}
 	if (is_redirection(sh->args[i]) || is_pipe(sh->args[i]))
-		print_error_readir(sh);
+		return(print_error_readir(sh));
 	return (1);
 }
