@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:24 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/29 16:29:29 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/10/03 17:31:14 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,11 @@ void	execute_command(t_minishell *sh)
 	while (sh->args[i])
 	{
 		start = i;
-		check_no_command_redirection(sh, start);
+		if (check_no_command_redirection(sh, start))
+		{
+			i += 2;
+			continue ;
+		}
 		while (sh->args[i] && ft_strcmp(sh->args[i], "|") != 0)
 			i++;
 		update_fds(sh, &prev_fd);

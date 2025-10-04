@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:18 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/09 21:26:21 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/10/03 17:42:35 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ char	*find_in_path(t_minishell *sh, char *cmd)
 	char	*path_env;
 	char	**dirs;
 
+	if (cmd == NULL)
+	{
+		free_minishell(sh);
+		exit(0);
+	}
 	if (!cmd || ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	path_env = get_env_value(sh->envp, "PATH");

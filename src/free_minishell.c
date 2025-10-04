@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: georgy-kankiya <georgy-kankiya@student.    +#+  +:+       +#+        */
+/*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:28 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/26 12:32:05 by georgy-kank      ###   ########.fr       */
+/*   Updated: 2025/10/03 17:38:09 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	free_temp_data(t_minishell *sh)
 	sh->args = NULL;
 	free(sh->line);
 	sh->line = NULL;
+	sh->data = NULL;
 	sh->is_two_operator = 0;
 }
 

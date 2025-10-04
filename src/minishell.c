@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:55:35 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/29 19:17:32 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/10/03 17:20:12 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void	process_command(t_minishell *sh)
 	add_history(sh->line);
 	sh->args = parse_input(sh);
 	if (sh->args && sh->args[0] != NULL && valid_operators(sh))
+	{
 		execute_command(sh);
+	}
 	free_temp_data(sh);
 }
 

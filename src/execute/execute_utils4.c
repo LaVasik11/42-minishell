@@ -6,30 +6,33 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 20:28:23 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/29 16:32:35 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/10/03 17:35:39 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_no_command_redirection(t_minishell *sh, int i)
+int	check_no_command_redirection(t_minishell *sh, int i)
 {
 	if (ft_strcmp(sh->args[i], "<") == 0)
 	{
 		sh->exit_code = 0;
 		if (access(sh->args[i + 1], F_OK) != 0)
+		{
+			printf("miniahell: %s: No such file or directory\n", \
+sh->args[i + 1]);
 			sh->exit_code = 1;
+		}
+		return (1);
 	}
 	else if (ft_strcmp(sh->args[i], ">") == 0 || \
 ft_strcmp(sh->args[i], ">>") == 0)
 	{
 		open(sh->args[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		sh->exit_code = 0;
+		return (1);
 	}
-	else if (ft_strcmp(sh->args[i], "<<") == 0)
-	{
-		here_doc(sh->args[i + 1], sh);
-	}
+	return (0);
 }
 
 char	**build_argv(char **args, int start, int end)

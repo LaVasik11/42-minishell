@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:03 by gkankia           #+#    #+#             */
-/*   Updated: 2025/09/29 17:25:22 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/10/03 17:25:23 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int start)
 }
 
 pid_t	fork_and_exec_child(t_minishell *sh, \
-	t_subprocess_data *data, int start)
+t_subprocess_data *data, int start)
 {
 	pid_t	pid;
 
@@ -74,7 +74,7 @@ int	init_subcmd(t_minishell *sh, t_subprocess_data *data,
 	int start, int end)
 {
 	data->cmd = build_argv(sh->args, start, end);
-	if (!data->cmd || !data->cmd[0])
+	if (!data->cmd)
 	{
 		free_args(data->cmd);
 		return (0);

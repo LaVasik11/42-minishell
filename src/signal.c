@@ -27,6 +27,7 @@ void	heredoc_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_received_signal = 0;
 		write(1, "\n", 1);
 		close(STDIN_FILENO);
 	}

@@ -6,7 +6,7 @@
 /*   By: gkankia <gkankia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:58:52 by tmkrtumy          #+#    #+#             */
-/*   Updated: 2025/09/29 19:29:01 by gkankia          ###   ########.fr       */
+/*   Updated: 2025/10/03 17:05:37 by gkankia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ sh->args[i + 1]);
 		i++;
 	}
 	if (is_redirection(sh->args[i]) || is_pipe(sh->args[i]))
-		return(print_error_readir(sh));
+		return (print_error_readir(sh));
 	return (1);
 }

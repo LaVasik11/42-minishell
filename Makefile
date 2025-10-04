@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror -I includes/ -I libft/
 LIBS = -lreadline
 RM = rm -rf
@@ -46,6 +46,8 @@ $(LIBFT):
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LIBS)
 
+v:	$(NAME)
+	valgrind --vgdb=yes --vgdb-error=0 --tool=memcheck --track-origins=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions="readline.supp" ./minishell
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
